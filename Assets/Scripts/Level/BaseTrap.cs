@@ -8,13 +8,18 @@ public class BaseTrap : MonoBehaviour
 	[FormerlySerializedAs("amount")] [SerializeField]
 	private int _playerDamageAmount;
 
-	private bool _insideDamageCoroutine = false;
+	private bool _isDamaging = false;
 
 	private void OnTriggerEnter(Collider other)
 	{
 		if (IsPlayer(other))
 		{
 			EventManager.AddDamageToPlayer(_playerDamageAmount);
+			if (!_isDamaging)
+			{
+				_isDamaging = true;
+				StartCoroutine(AddDamage());			
+			}
 		}
 	}
 
@@ -22,8 +27,7 @@ public class BaseTrap : MonoBehaviour
 	{
 		if (IsPlayer(other))
 		{
-			_insideDamageCoroutine = false;
-			StopCoroutine(AddDamage());
+			_isDamaging = false;
 		}	
 	}
 
@@ -32,21 +36,13 @@ public class BaseTrap : MonoBehaviour
 		return other.gameObject.CompareTag("Player");
 	}
 
-	private void OnTriggerStay(Collider other)
-	{
-		if (IsPlayer(other) && !_insideDamageCoroutine)
-		{
-			StartCoroutine(AddDamage());	
-		}
-	}
-
 	private IEnumerator AddDamage()
 	{
-		_insideDamageCoroutine = true;
-		while (true)
+		while (_isDamaging)
 		{
-			yield return new WaitForSeconds(0.5f);
-			EventManager.AddDamageToPlayer(_playerDamageAmount);	
+			yield return new WaitForSeconds(1f);
+			if(_isDamaging)
+				EventManager.AddDamageToPlayer(_playerDamageAmount);	
 		}
 	}
 }

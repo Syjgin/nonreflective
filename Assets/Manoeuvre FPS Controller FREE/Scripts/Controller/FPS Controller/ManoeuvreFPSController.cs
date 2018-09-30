@@ -18,6 +18,7 @@ namespace Manoeuvre
         public ManoeuvreFPSInputs inputs;
         public Locomotion Locomotion;
         public PlayerHealth Health;
+        public AttackManager AttackManager;
 
         Camera camera;
         CameraController camController;
@@ -25,6 +26,7 @@ namespace Manoeuvre
         bool wasGrounded;
         bool Walking = true;
         bool Jumping = false;
+        private bool _scratching = false;
         float fallTimer = 0f;
         CharacterController charController;
         public static ManoeuvreFPSController Instance;
@@ -109,6 +111,13 @@ namespace Manoeuvre
             //manage crouching
             Crouch();
 
+            Attack();
+        }
+
+        void Attack()
+        {
+            _scratching = inputs.scratchInput;
+            AttackManager.StartScratch(_scratching);
         }
 
         void Move()
@@ -310,7 +319,6 @@ namespace Manoeuvre
         /// </summary>
         public void Die()
         {
-            Debug.Log("Death!");
             //make sure, time scale is 1
             Time.timeScale = 1f;
 
@@ -334,6 +342,23 @@ namespace Manoeuvre
     }
 
     #region Serialized Classes
+
+    [System.Serializable]
+    public class AttackManager
+    {
+        public const float ScratchTimeout = 0.3f;
+        private float _currentTimeout = 0f;
+        public void StartScratch(bool scratching)
+        {
+            if (scratching && _currentTimeout > ScratchTimeout)
+            {
+                _currentTimeout = 0f;
+                Debug.Log("scratch");
+            }
+
+            _currentTimeout += Time.deltaTime;
+        }
+    }
 
     [System.Serializable]
     public class Locomotion
@@ -458,6 +483,11 @@ namespace Manoeuvre
         public KeyCode scratchKey = KeyCode.Mouse0;
         [Tooltip("Bite Input Key.")]
         public KeyCode biteKey = KeyCode.Mouse1;
+        
+        [HideInInspector]
+        public bool scratchInput;
+        [HideInInspector]
+        public bool biteInput;
 
         /// <summary>
         /// Handle All the Inputs
@@ -494,6 +524,9 @@ namespace Manoeuvre
                 crouchInput = Input.GetButton(crouchButton);
             else
                 crouchInput = Input.GetKey(crouchKey);
+         
+            scratchInput = Input.GetKey(scratchKey);
+            biteInput = Input.GetKey(biteKey);
 
         }
 
@@ -544,7 +577,6 @@ namespace Manoeuvre
         {
             //we decrease current health
             currentHealth -= amount;
-
             //if it's 0
             if (currentHealth <= 0)
             {
@@ -597,8 +629,7 @@ namespace Manoeuvre
             source.pitch = Random.Range(1f, 1.2f);
             int clip = Random.Range(0, ac.Count);
 
-            if (!source.isPlaying)
-                source.PlayOneShot(ac[clip]);
+            source.PlayOneShot(ac[clip]);
         }
     }
 
