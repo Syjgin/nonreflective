@@ -321,22 +321,21 @@ namespace Manoeuvre
         {
             //make sure, time scale is 1
             Time.timeScale = 1f;
-
+            //also lerp Health and Damage Sliders
+            gc_PlayerHealthManager.Instance.LerpSliders(Health.currentHealth);
+            
             //we play death sound
             Health.PlaySound(Health.DeathSounds);
 
-            //also lerp Health and Damage Sliders
-            gc_PlayerHealthManager.Instance.LerpSliders(Health.currentHealth);
-
             //Start Death Manoeuvre Coroutine
             StartCoroutine(Health.ShowDamageVignette());
-            StartCoroutine(Health.deathManoeuvre.DeathManoeuvreCoroutine(Camera.main.transform));
+            StartCoroutine(Health.deathManoeuvre.DeathManoeuvreCoroutine(camera.transform));
 
             //hide UI
             gc_PlayerHealthManager.Instance.DisableUI();
 
             GetComponent<ManoeuvreFPSController>().enabled = false;
-
+            camController.enabled = false;
         }
         #endregion
     }

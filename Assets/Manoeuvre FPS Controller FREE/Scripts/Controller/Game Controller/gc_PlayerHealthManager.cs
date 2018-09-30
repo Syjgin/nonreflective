@@ -108,8 +108,19 @@ namespace Manoeuvre
             CanvasGroup HUD = GameObject.Find("HUD").GetComponent<CanvasGroup>();
             cg.Add(HUD);
             StartCoroutine(hideUI(cg));
-
-            UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);
+            CanvasGroup endDialogue = GameObject.Find("EndDialogue").GetComponent<CanvasGroup>();
+            StartCoroutine(showUI(endDialogue));
+        }
+        
+        IEnumerator showUI(CanvasGroup cg)
+        {
+            float t = 0;
+            while (t < 1f)
+            {
+                cg.alpha = Mathf.Lerp(0, 100, t);
+                t += Time.deltaTime;
+                yield return null;
+            }
         }
 
         IEnumerator hideUI(List<CanvasGroup> cg)
