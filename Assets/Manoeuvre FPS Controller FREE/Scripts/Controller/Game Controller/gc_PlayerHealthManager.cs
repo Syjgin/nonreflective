@@ -107,10 +107,6 @@ namespace Manoeuvre
 
             CanvasGroup HUD = GameObject.Find("HUD").GetComponent<CanvasGroup>();
             cg.Add(HUD);
-
-            CanvasGroup ScreenVignett = GameObject.Find("ScreenVignett").GetComponent<CanvasGroup>();
-            cg.Add(ScreenVignett);
-
             StartCoroutine(hideUI(cg));
 
             UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().buildIndex);

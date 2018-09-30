@@ -8,6 +8,7 @@ namespace Manoeuvre
 {
 
     public enum PlayerStates { Idle, Walking, Running, Jumping, Landing, Crouching }
+    
 
     [RequireComponent(typeof(CharacterController))]
     public class ManoeuvreFPSController : MonoBehaviour
@@ -74,6 +75,16 @@ namespace Manoeuvre
             Health.Initialize(this);
             gc_PlayerHealthManager.Instance.Initialize(Health.Health);
 
+        }
+
+        private void OnEnable()
+        {
+            EventManager.OnPlayerDamaged += Health.ApplyDamage;
+        }
+
+        private void OnDisable()
+        {
+            EventManager.OnPlayerDamaged -= Health.ApplyDamage;
         }
 
         #endregion
@@ -281,7 +292,6 @@ namespace Manoeuvre
         {
             if (Health.deathManoeuvre.insideCoroutine)
                 return;
-
             //shake camera
             StartCoroutine(camController.ShakeCamera(Health.ShakeDuration, Health.ShakeAmount));
             //show vignette
@@ -300,6 +310,7 @@ namespace Manoeuvre
         /// </summary>
         public void Die()
         {
+            Debug.Log("Death!");
             //make sure, time scale is 1
             Time.timeScale = 1f;
 

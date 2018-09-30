@@ -60,6 +60,12 @@
             </e>
           </e>
         </e>
+        <e p="Scripts" t="Include">
+          <e p="EventManager.cs" t="Include" />
+          <e p="Level" t="Include">
+            <e p="BaseTrap.cs" t="Include" />
+          </e>
+        </e>
       </e>
       <e p="Library" t="ExcludeRecursive" />
       <e p="Temp" t="ExcludeRecursive">

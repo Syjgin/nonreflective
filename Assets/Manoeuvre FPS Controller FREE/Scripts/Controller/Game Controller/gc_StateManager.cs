@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Manoeuvre
 {
@@ -20,15 +21,13 @@ namespace Manoeuvre
         public float radiusWhileShooting;
 
         public static gc_StateManager Instance;
-        GameObject Player;
+        [FormerlySerializedAs("Player")] [SerializeField]
+        ManoeuvreFPSController _player;
 
         // Use this for initialization
         void Awake()
         {
-            Player = GameObject.FindGameObjectWithTag("Player");
-
             Instance = this;
-
         }
 
     }
