@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Manoeuvre
@@ -31,8 +32,6 @@ namespace Manoeuvre
         [HideInInspector]
         public int propertyTab;
 
-        [HideInInspector]
-        public bool showInputs, showLocomotion, showHealth;
         #endregion
 
         #region Initialize
@@ -174,6 +173,7 @@ namespace Manoeuvre
             //Step 2 --> Now manage states based upon the Inputs
             ManagePlayerStates();
 
+            
         }
 
         /// <summary>
@@ -443,26 +443,10 @@ namespace Manoeuvre
         public KeyCode runKey;
 
         [Space(5)]
-        [Tooltip("Shoot Input Key.")]
-        public KeyCode shootKey = KeyCode.Mouse0;
-        public string shootButton;
-        public KeyCode ironSightInputKey = KeyCode.Mouse1;
-        public string ReloadButton = "Reload";
-        public KeyCode ReloadKey;
-        public string NextWeaponButton = "NextWeapon";
-        public KeyCode NextWeaponKey;
-        public string PreviousWeaponButton = "PreviousWeapon";
-        public KeyCode PreviousWeaponKey;
-
-        [Space(5)]
-        public KeyCode InventoryKey;
-        public string InventoryButton = "Inventory";
-
-        [Space(5)]
-        public KeyCode ZoomOutKey = KeyCode.KeypadMinus;
-        public string ZoomOutButton;
-        public KeyCode ZoomInKey = KeyCode.KeypadPlus;
-        public string ZoomInButton;
+        [Tooltip("Scratch Input Key.")]
+        public KeyCode scratchKey = KeyCode.Mouse0;
+        [Tooltip("Bite Input Key.")]
+        public KeyCode biteKey = KeyCode.Mouse1;
 
         /// <summary>
         /// Handle All the Inputs

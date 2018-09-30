@@ -106,18 +106,8 @@ namespace Manoeuvre
 
             EditorGUILayout.LabelField("Weapon Inputs", EditorStyles.centeredGreyMiniLabel);
 
-            string shootButton = EditorGUILayout.TextField("Shoot Button ", _Controller.inputs.shootButton);
-            KeyCode shootKey = (KeyCode)EditorGUILayout.EnumPopup("Shoot Key ", _Controller.inputs.shootKey);
-            KeyCode ironSightInputKey = (KeyCode)EditorGUILayout.EnumPopup("Ironsight Key ", _Controller.inputs.ironSightInputKey);
-
-            string ReloadButton = EditorGUILayout.TextField("Reload Button", _Controller.inputs.ReloadButton);
-            KeyCode ReloadKey = (KeyCode)EditorGUILayout.EnumPopup("Reload Key ", _Controller.inputs.ReloadKey);
-
-            string NextWeaponButton = EditorGUILayout.TextField("Next Weapon Button", _Controller.inputs.NextWeaponButton);
-            KeyCode NextWeaponKey = (KeyCode)EditorGUILayout.EnumPopup("Next Weapon Key ", _Controller.inputs.NextWeaponKey);
-
-            string PreviousWeaponButton = EditorGUILayout.TextField("Previous Weapon Button", _Controller.inputs.PreviousWeaponButton);
-            KeyCode PreviousWeaponKey = (KeyCode)EditorGUILayout.EnumPopup("Previous Weapon Key ", _Controller.inputs.PreviousWeaponKey);
+            KeyCode scratchKey = (KeyCode)EditorGUILayout.EnumPopup("Scratch Key ", _Controller.inputs.scratchKey);
+            KeyCode biteKey = (KeyCode)EditorGUILayout.EnumPopup("Bite Key ", _Controller.inputs.biteKey);
 
             EditorGUILayout.EndVertical();
 
@@ -125,19 +115,11 @@ namespace Manoeuvre
 
             EditorGUILayout.LabelField("Inventory Input", EditorStyles.centeredGreyMiniLabel);
 
-            string InventoryButton = EditorGUILayout.TextField("Inventory Button ", _Controller.inputs.InventoryButton);
-            KeyCode InventoryKey = (KeyCode)EditorGUILayout.EnumPopup("Inventory Key ", _Controller.inputs.InventoryKey);
-
             EditorGUILayout.EndVertical();
 
             EditorGUILayout.BeginVertical(EditorStyles.helpBox);
 
             EditorGUILayout.LabelField("Minimap Input", EditorStyles.centeredGreyMiniLabel);
-
-            string ZoomInButton = EditorGUILayout.TextField("Zoom In Button ", _Controller.inputs.ZoomInButton);
-            KeyCode ZoomInKey = (KeyCode)EditorGUILayout.EnumPopup("Zoom In Key ", _Controller.inputs.ZoomInKey);
-            string ZoomOutButton = EditorGUILayout.TextField("Zoom Out Button ", _Controller.inputs.ZoomOutButton);
-            KeyCode ZoomOutKey = (KeyCode)EditorGUILayout.EnumPopup("Zoom Out Key ", _Controller.inputs.ZoomOutKey);
 
             EditorGUILayout.EndVertical();
 
@@ -154,23 +136,8 @@ namespace Manoeuvre
                 _Controller.inputs.runButton = runButton;
                 _Controller.inputs.runKey = runKey;
 
-                _Controller.inputs.shootButton = shootButton;
-                _Controller.inputs.shootKey = shootKey;
-                _Controller.inputs.ironSightInputKey = ironSightInputKey;
-                _Controller.inputs.ReloadButton = ReloadButton;
-                _Controller.inputs.ReloadKey = ReloadKey;
-                _Controller.inputs.NextWeaponButton = NextWeaponButton;
-                _Controller.inputs.NextWeaponKey = NextWeaponKey;
-                _Controller.inputs.PreviousWeaponButton = PreviousWeaponButton;
-                _Controller.inputs.PreviousWeaponKey = PreviousWeaponKey;
-                _Controller.inputs.InventoryButton = InventoryButton;
-                _Controller.inputs.InventoryKey = InventoryKey;
-                _Controller.inputs.ZoomInButton = ZoomInButton;
-                _Controller.inputs.ZoomInKey = ZoomInKey;
-                _Controller.inputs.ZoomOutButton = ZoomOutButton;
-                _Controller.inputs.ZoomOutKey = ZoomOutKey;
-
-
+                _Controller.inputs.scratchKey = scratchKey;
+                _Controller.inputs.biteKey = biteKey;
             }
 
         }

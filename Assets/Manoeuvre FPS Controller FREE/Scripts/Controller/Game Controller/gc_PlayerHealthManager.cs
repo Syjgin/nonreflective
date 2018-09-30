@@ -108,9 +108,6 @@ namespace Manoeuvre
             CanvasGroup HUD = GameObject.Find("HUD").GetComponent<CanvasGroup>();
             cg.Add(HUD);
 
-            CanvasGroup Crosshair = GameObject.Find("Crosshair").GetComponent<CanvasGroup>();
-            cg.Add(Crosshair);
-
             CanvasGroup ScreenVignett = GameObject.Find("ScreenVignett").GetComponent<CanvasGroup>();
             cg.Add(ScreenVignett);
 
