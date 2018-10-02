@@ -58,7 +58,6 @@
   <ItemGroup>
     <Compile Include="Assets\MagicMirror\Prefab\Editor\MagicMirrorEditor.cs" />
     <Compile Include="Assets\Manoeuvre FPS Controller FREE\Scripts\Controller\Camera Controller\Editor\CameraControllerEditor.cs" />
-    <Compile Include="Assets\Manoeuvre FPS Controller FREE\Scripts\Controller\FPS Controller\Editor\ManoeuvreFPSControllerEditor.cs" />
     <Compile Include="Assets\Manoeuvre FPS Controller FREE\Scripts\Controller\Game Controller\Editor\gc_PlayerHealthManagerEditor.cs" />
     <Compile Include="Assets\Manoeuvre FPS Controller FREE\Scripts\Controller\Game Controller\Editor\gc_StateManagerEditor.cs" />
     <Compile Include="Assets\Manoeuvre FPS Controller FREE\Scripts\Editor\WizardEditor.cs" />
