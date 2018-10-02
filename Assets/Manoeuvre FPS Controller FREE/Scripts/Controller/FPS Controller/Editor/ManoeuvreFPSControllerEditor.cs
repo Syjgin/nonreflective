@@ -15,6 +15,7 @@ namespace Manoeuvre
         
         List<AudioClip> HitSounds = new List<AudioClip>();
         List<AudioClip> DeathSounds = new List<AudioClip>();
+        List<AudioClip> AttackSounds = new List<AudioClip>();
 
         private void OnEnable()
         {
@@ -35,7 +36,7 @@ namespace Manoeuvre
 
         void DrawPropertyTabs()
         {
-            _Controller.propertyTab = GUILayout.Toolbar(_Controller.propertyTab, new string[] { "Inputs", "Locomotion", "Health" });
+            _Controller.propertyTab = GUILayout.Toolbar(_Controller.propertyTab, new string[] { "Inputs", "Locomotion", "Health", "Attack" });
 
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
@@ -50,6 +51,9 @@ namespace Manoeuvre
                     break;
                 case 2:
                     DrawHealthProperties();
+                    break;
+                case 3:
+                    DrawAttackManager();
                     break;
             }
 
@@ -107,22 +111,10 @@ namespace Manoeuvre
             EditorGUILayout.LabelField("Weapon Inputs", EditorStyles.centeredGreyMiniLabel);
 
             KeyCode scratchKey = (KeyCode)EditorGUILayout.EnumPopup("Scratch Key ", _Controller.inputs.scratchKey);
-            KeyCode biteKey = (KeyCode)EditorGUILayout.EnumPopup("Bite Key ", _Controller.inputs.biteKey);
 
             EditorGUILayout.EndVertical();
 
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-
-            EditorGUILayout.LabelField("Inventory Input", EditorStyles.centeredGreyMiniLabel);
-
-            EditorGUILayout.EndVertical();
-
-            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
-
-            EditorGUILayout.LabelField("Minimap Input", EditorStyles.centeredGreyMiniLabel);
-
-            EditorGUILayout.EndVertical();
-
+            
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(target, "inputs");
@@ -137,7 +129,6 @@ namespace Manoeuvre
                 _Controller.inputs.runKey = runKey;
 
                 _Controller.inputs.scratchKey = scratchKey;
-                _Controller.inputs.biteKey = biteKey;
             }
 
         }
@@ -379,6 +370,52 @@ namespace Manoeuvre
                 _Controller.Health.deathManoeuvre.cameraRotationOffset = cameraRotationOffset;
                 _Controller.Health.deathManoeuvre.deathDuration = deathDuration;
                 _Controller.Health.deathManoeuvre.WeaponDismembermentForce = WeaponDismembermentForce;
+            }
+        }
+
+        void DrawAttackManager()
+        {
+            EditorGUI.BeginChangeCheck();
+            AttackSounds = _Controller.AttackManager.AttackSounds;
+            EditorGUILayout.BeginVertical(EditorStyles.helpBox);
+            EditorGUILayout.HelpBox("Add Audio Clips for Attack Sound Effect.", MessageType.Info);
+            if (AttackSounds.Count == 0)
+                EditorGUILayout.HelpBox("Add At least 1 AudioClip.", MessageType.Error);
+            EditorGUILayout.EndVertical();
+            EditorGUILayout.BeginHorizontal();
+
+            if (GUILayout.Button("Add New"))
+            {
+                AudioClip newAC = null;
+                AttackSounds.Add(newAC);
+            }
+
+            if (GUILayout.Button("Clear"))
+            {
+                AttackSounds.Clear();
+            }
+
+            EditorGUILayout.EndHorizontal();
+
+            for (int i = 0; i < AttackSounds.Count; i++)
+            {
+                EditorGUILayout.BeginHorizontal("box");
+
+                AttackSounds[i] = (AudioClip)EditorGUILayout.ObjectField(AttackSounds[i], typeof(AudioClip));
+
+                if (GUILayout.Button("X"))
+                {
+                    AttackSounds.RemoveAt(i);
+                }
+
+                EditorGUILayout.EndHorizontal();
+
+            }
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(target, "Attack");
+
+                _Controller.AttackManager.AttackSounds = AttackSounds;
             }
         }
 

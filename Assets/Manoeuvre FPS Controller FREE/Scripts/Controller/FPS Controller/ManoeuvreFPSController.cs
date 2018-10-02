@@ -31,6 +31,7 @@ namespace Manoeuvre
         float fallTimer = 0f;
         CharacterController charController;
         public static ManoeuvreFPSController Instance;
+        public AudioSource source;
 
         //Editor Variable
         [HideInInspector]
@@ -54,6 +55,8 @@ namespace Manoeuvre
 
         void Initialize()
         {
+            source = gameObject.AddComponent<AudioSource>();
+            AttackManager.HandsAnimator = GameObject.Find("hands").GetComponent<Animator>();
             //get character controller ref
             charController = GetComponent<CharacterController>();
 
@@ -88,6 +91,14 @@ namespace Manoeuvre
         private void OnDisable()
         {
             EventManager.OnPlayerDamaged -= Health.ApplyDamage;
+        }
+        
+        public void PlaySound(List<AudioClip> ac)
+        {
+            source.pitch = Random.Range(1f, 1.2f);
+            int clip = Random.Range(0, ac.Count);
+
+            source.PlayOneShot(ac[clip]);
         }
 
         #endregion
@@ -311,7 +322,7 @@ namespace Manoeuvre
             gc_PlayerHealthManager.Instance.LerpSliders(Health.currentHealth);
 
             //we play hit sound
-            Health.PlaySound(Health.HitSounds);
+            PlaySound(Health.HitSounds);
         }
 
         /// <summary>
@@ -326,7 +337,7 @@ namespace Manoeuvre
             gc_PlayerHealthManager.Instance.LerpSliders(Health.currentHealth);
             
             //we play death sound
-            Health.PlaySound(Health.DeathSounds);
+            PlaySound(Health.DeathSounds);
 
             //Start Death Manoeuvre Coroutine
             StartCoroutine(Health.ShowDamageVignette());
@@ -346,6 +357,8 @@ namespace Manoeuvre
     [System.Serializable]
     public class AttackManager
     {
+        public List<AudioClip> AttackSounds = new List<AudioClip>();
+        public Animator HandsAnimator;
         public const float ScratchTimeout = 0.3f;
         private float _currentTimeout = 0f;
         public void StartScratch(bool scratching)
@@ -353,10 +366,18 @@ namespace Manoeuvre
             if (scratching && _currentTimeout > ScratchTimeout)
             {
                 _currentTimeout = 0f;
-                Debug.Log("scratch");
+                HandsAnimator.SetBool("Attack", true);
+                ManoeuvreFPSController.Instance.PlaySound(AttackSounds);
+                ManoeuvreFPSController.Instance.StartCoroutine(AttackAnimation());
             }
 
             _currentTimeout += Time.deltaTime;
+        }
+
+        private IEnumerator AttackAnimation()
+        {
+            yield return new WaitForSeconds(1);
+            HandsAnimator.SetBool("Attack", false);
         }
     }
 
@@ -481,13 +502,9 @@ namespace Manoeuvre
         [Space(5)]
         [Tooltip("Scratch Input Key.")]
         public KeyCode scratchKey = KeyCode.Mouse0;
-        [Tooltip("Bite Input Key.")]
-        public KeyCode biteKey = KeyCode.Mouse1;
         
         [HideInInspector]
         public bool scratchInput;
-        [HideInInspector]
-        public bool biteInput;
 
         /// <summary>
         /// Handle All the Inputs
@@ -526,7 +543,6 @@ namespace Manoeuvre
                 crouchInput = Input.GetKey(crouchKey);
          
             scratchInput = Input.GetKey(scratchKey);
-            biteInput = Input.GetKey(biteKey);
 
         }
 
@@ -552,7 +568,6 @@ namespace Manoeuvre
         [Space(5)]
         public List<AudioClip> HitSounds = new List<AudioClip>();
         public List<AudioClip> DeathSounds = new List<AudioClip>();
-        public AudioSource source;
 
         [Space(5)]
         public DeathManoeuvre deathManoeuvre;
@@ -568,9 +583,6 @@ namespace Manoeuvre
             currentHealth = Health;
 
             DamageVignette = GameObject.Find("DamageVignett").GetComponent<CanvasGroup>();
-
-            //Add sound source
-            source = controller.gameObject.AddComponent<AudioSource>();
         }
 
         public void ApplyDamage(int amount)
@@ -622,14 +634,6 @@ namespace Manoeuvre
                 yield return null;
             }
 
-        }
-
-        public void PlaySound(List<AudioClip> ac)
-        {
-            source.pitch = Random.Range(1f, 1.2f);
-            int clip = Random.Range(0, ac.Count);
-
-            source.PlayOneShot(ac[clip]);
         }
     }
 
