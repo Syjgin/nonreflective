@@ -64,9 +64,11 @@
     <Compile Include="Assets\Manoeuvre FPS Controller FREE\Scripts\Controller\FPS Controller\ManoeuvreFPSController.cs" />
     <Compile Include="Assets\Manoeuvre FPS Controller FREE\Scripts\Controller\Game Controller\gc_PlayerHealthManager.cs" />
     <Compile Include="Assets\Manoeuvre FPS Controller FREE\Scripts\Controller\Game Controller\gc_StateManager.cs" />
+    <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\EventManager.cs" />
     <Compile Include="Assets\Scripts\Level\BaseTrap.cs" />
     <Compile Include="Assets\Scripts\Level\GameController.cs" />
+    <Compile Include="Assets\Scripts\Sucker.cs" />
     <None Include="Assets\MagicMirror\Prefab\MirrorShaderOld.shader" />
     <None Include="Assets\Manoeuvre FPS Controller FREE\Prototyping\Prototyping\Shaders\WorldCoordDiffuse.shader" />
     <None Include="Assets\MagicMirror\Prefab\MirrorShaderBumpMap.shader" />

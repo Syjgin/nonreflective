@@ -398,18 +398,33 @@ namespace Manoeuvre
 
         public CanvasGroup SuckVignette;
         //public Animator HandsAnimator;
-        public const float ScratchTimeout = 0.3f;
+        public float ScratchTimeout = 0.5f;
         public int SuckAmount = 5;
-        private float _currentTimeout = 0f;
+        private float _currentTimeout = 0.5f;
+
+        private const int NoTarget = -1;
+        private int _targetId = NoTarget;
+
+        public void AddTarget(int id)
+        {
+            _targetId = id;
+        }
+
+        public void RemoveTarget()
+        {
+            _targetId = NoTarget;
+        }
+        
         public void StartScratch(bool scratching)
         {
-            if (scratching && _currentTimeout > ScratchTimeout)
+            if (scratching && _currentTimeout > ScratchTimeout && _targetId != NoTarget)
             {
                 _currentTimeout = 0f;
                 //HandsAnimator.SetBool("Attack", true);
                 ManoeuvreFPSController.Instance.PlaySound(AttackSounds);
                 ManoeuvreFPSController.Instance.HealthkitPickup(SuckAmount);
                 ManoeuvreFPSController.Instance.StartCoroutine(ManoeuvreFPSController.Instance.ShowVignette(SuckVignette));
+                EventManager.AddDamageToEnemy(_targetId, SuckAmount);
             }
 
             _currentTimeout += Time.deltaTime;
@@ -500,8 +515,6 @@ namespace Manoeuvre
         public string Horizontal = "Horizontal";
         [Tooltip("Assign Vertical axis.")]
         public string Vertical = "Vertical";
-
-        public string mouseScrollWheel = "Mouse ScrollWheel";
 
         [HideInInspector]
         public float horizontal;

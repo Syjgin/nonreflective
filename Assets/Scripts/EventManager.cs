@@ -16,4 +16,16 @@ public class EventManager
 			OnPlayerDamaged(amount);
 		}
 	}
+	
+	public delegate void EnemyDamaged(int id, int amount);
+
+	public static event EnemyDamaged OnEnemyDamaged;
+
+	public static void AddDamageToEnemy(int id, int amount)
+	{
+		if (OnEnemyDamaged != null)
+		{
+			OnEnemyDamaged(id, amount);
+		}
+	}
 }
