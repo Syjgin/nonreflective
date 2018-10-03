@@ -32,6 +32,10 @@ namespace Manoeuvre
         CharacterController charController;
         public static ManoeuvreFPSController Instance;
         public AudioSource source;
+        
+        [Space(5)]
+        [Range(0.1f, 2f)]
+        public float DamageVignetteDuration = 0.35f;
 
         //Editor Variable
         [HideInInspector]
@@ -56,7 +60,7 @@ namespace Manoeuvre
         void Initialize()
         {
             source = gameObject.AddComponent<AudioSource>();
-            AttackManager.HandsAnimator = GameObject.Find("hands").GetComponent<Animator>();
+            //AttackManager.HandsAnimator = GameObject.Find("hands").GetComponent<Animator>();
             //get character controller ref
             charController = GetComponent<CharacterController>();
 
@@ -124,6 +128,39 @@ namespace Manoeuvre
             Crouch();
 
             Attack();
+        }
+        
+        public IEnumerator ShowVignette(CanvasGroup vignette)
+        {
+            float et = 0;
+            //show vignette
+            while (et < DamageVignetteDuration / 3)
+            {
+                vignette.alpha = Mathf.Lerp(vignette.alpha, 1.1f, et / (DamageVignetteDuration / 3));
+
+                et += Time.deltaTime;
+                yield return null;
+            }
+
+            //delay
+            float t = 0;
+            while (t < DamageVignetteDuration)
+            {
+                t += Time.deltaTime;
+            }
+
+
+            et = 0;
+            //hide vignette
+            while (et < DamageVignetteDuration / 3)
+            {
+                vignette.alpha = Mathf.Lerp(vignette.alpha, 0, et / (DamageVignetteDuration / 3));
+
+
+                et += Time.deltaTime;
+                yield return null;
+            }
+
         }
 
         void Attack()
@@ -316,7 +353,7 @@ namespace Manoeuvre
             //shake camera
             StartCoroutine(camController.ShakeCamera(Health.ShakeDuration, Health.ShakeAmount));
             //show vignette
-            StartCoroutine(Health.ShowDamageVignette());
+            StartCoroutine(ShowVignette(Health.DamageVignette));
 
             //also lerp Health and Damage Sliders
             gc_PlayerHealthManager.Instance.LerpSliders(Health.currentHealth);
@@ -340,7 +377,7 @@ namespace Manoeuvre
             PlaySound(Health.DeathSounds);
 
             //Start Death Manoeuvre Coroutine
-            StartCoroutine(Health.ShowDamageVignette());
+            StartCoroutine(ShowVignette(Health.DamageVignette));
             StartCoroutine(Health.deathManoeuvre.DeathManoeuvreCoroutine(camera.transform));
 
             //hide UI
@@ -358,26 +395,24 @@ namespace Manoeuvre
     public class AttackManager
     {
         public List<AudioClip> AttackSounds = new List<AudioClip>();
-        public Animator HandsAnimator;
+
+        public CanvasGroup SuckVignette;
+        //public Animator HandsAnimator;
         public const float ScratchTimeout = 0.3f;
+        public int SuckAmount = 5;
         private float _currentTimeout = 0f;
         public void StartScratch(bool scratching)
         {
             if (scratching && _currentTimeout > ScratchTimeout)
             {
                 _currentTimeout = 0f;
-                HandsAnimator.SetBool("Attack", true);
+                //HandsAnimator.SetBool("Attack", true);
                 ManoeuvreFPSController.Instance.PlaySound(AttackSounds);
-                ManoeuvreFPSController.Instance.StartCoroutine(AttackAnimation());
+                ManoeuvreFPSController.Instance.HealthkitPickup(SuckAmount);
+                ManoeuvreFPSController.Instance.StartCoroutine(ManoeuvreFPSController.Instance.ShowVignette(SuckVignette));
             }
 
             _currentTimeout += Time.deltaTime;
-        }
-
-        private IEnumerator AttackAnimation()
-        {
-            yield return new WaitForSeconds(1);
-            HandsAnimator.SetBool("Attack", false);
         }
     }
 
@@ -560,9 +595,6 @@ namespace Manoeuvre
         [Range(0.01f, 1f)]
         public float ShakeAmount = 0.25f;
 
-        [Space(5)]
-        [Range(0.1f, 2f)]
-        public float DamageVignetteDuration = 0.35f;
         public CanvasGroup DamageVignette;
 
         [Space(5)]
@@ -603,38 +635,7 @@ namespace Manoeuvre
             }
         }
 
-        public IEnumerator ShowDamageVignette()
-        {
-            float et = 0;
-            //show vignette
-            while (et < DamageVignetteDuration / 3)
-            {
-                DamageVignette.alpha = Mathf.Lerp(DamageVignette.alpha, 1.1f, et / (DamageVignetteDuration / 3));
-
-                et += Time.deltaTime;
-                yield return null;
-            }
-
-            //delay
-            float t = 0;
-            while (t < DamageVignetteDuration)
-            {
-                t += Time.deltaTime;
-            }
-
-
-            et = 0;
-            //hide vignette
-            while (et < DamageVignetteDuration / 3)
-            {
-                DamageVignette.alpha = Mathf.Lerp(DamageVignette.alpha, 0, et / (DamageVignetteDuration / 3));
-
-
-                et += Time.deltaTime;
-                yield return null;
-            }
-
-        }
+        
     }
 
     [System.Serializable]
