@@ -29,7 +29,6 @@ namespace Enemy
 		_currentAttackTimer = _attackTimer;
 		_attackDistance = _attacker.transform.localPosition.z;
 		_agent = GetComponent<NavMeshAgent>();
-		_agent.stoppingDistance = _attackDistance;
 		_player = GameObject.FindGameObjectWithTag("Player");
 	}
 
@@ -94,7 +93,7 @@ namespace Enemy
 	{
 		if (isAllowed)
 		{
-			//_agent.destination = transform.position;
+			_agent.destination = transform.position;
 			if (_currentAttackTimer >= _attackTimer)
 			{
 				_currentAttackTimer = 0;
