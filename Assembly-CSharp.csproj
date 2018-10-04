@@ -64,7 +64,8 @@
     <Compile Include="Assets\Manoeuvre FPS Controller FREE\Scripts\Controller\FPS Controller\ManoeuvreFPSController.cs" />
     <Compile Include="Assets\Manoeuvre FPS Controller FREE\Scripts\Controller\Game Controller\gc_PlayerHealthManager.cs" />
     <Compile Include="Assets\Manoeuvre FPS Controller FREE\Scripts\Controller\Game Controller\gc_StateManager.cs" />
-    <Compile Include="Assets\Scripts\Enemy.cs" />
+    <Compile Include="Assets\Scripts\Enemy\EnemyAttack.cs" />
+    <Compile Include="Assets\Scripts\Enemy\EnemyController.cs" />
     <Compile Include="Assets\Scripts\EventManager.cs" />
     <Compile Include="Assets\Scripts\Level\BaseTrap.cs" />
     <Compile Include="Assets\Scripts\Level\GameController.cs" />

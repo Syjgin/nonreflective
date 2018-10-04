@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Enemy;
 using UnityEngine;
 
 public class Sucker : MonoBehaviour
@@ -16,7 +17,7 @@ public class Sucker : MonoBehaviour
 		{
 			triggered = true;
 			this.other = other;
-			var enemy = other.gameObject.GetComponent<Enemy>();
+			var enemy = other.gameObject.GetComponent<EnemyController>();
 			_fpsController.AttackManager.AddTarget(enemy.Id);
 		}
 	}
