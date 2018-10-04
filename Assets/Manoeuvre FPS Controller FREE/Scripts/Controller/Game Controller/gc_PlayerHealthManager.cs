@@ -101,16 +101,29 @@ namespace Manoeuvre
             }
         }
 
-        public void DisableUI()
+        public void FailUi()
         {
             List<CanvasGroup> cg = new List<CanvasGroup>();
 
             CanvasGroup HUD = GameObject.Find("HUD").GetComponent<CanvasGroup>();
             cg.Add(HUD);
             StartCoroutine(hideUI(cg));
-            CanvasGroup endDialogue = GameObject.Find("EndDialogue").GetComponent<CanvasGroup>();
+            CanvasGroup endDialogue = GameObject.Find("FailDialogue").GetComponent<CanvasGroup>();
             StartCoroutine(showUI(endDialogue));
         }
+        
+        public void WinUi()
+        {
+            List<CanvasGroup> cg = new List<CanvasGroup>();
+
+            CanvasGroup HUD = GameObject.Find("HUD").GetComponent<CanvasGroup>();
+            cg.Add(HUD);
+            StartCoroutine(hideUI(cg));
+            CanvasGroup endDialogue = GameObject.Find("WinDialogue").GetComponent<CanvasGroup>();
+            StartCoroutine(showUI(endDialogue));
+        }
+        
+        
         
         IEnumerator showUI(CanvasGroup cg)
         {

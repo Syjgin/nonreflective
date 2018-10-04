@@ -90,11 +90,20 @@ namespace Manoeuvre
         private void OnEnable()
         {
             EventManager.OnPlayerDamaged += Health.ApplyDamage;
+            EventManager.OnPortalReached += Win;
+        }
+
+        private void Win()
+        {
+            gc_PlayerHealthManager.Instance.WinUi();
+            gameObject.SetActive(false);
+            camController.enabled = false;
         }
 
         private void OnDisable()
         {
             EventManager.OnPlayerDamaged -= Health.ApplyDamage;
+            EventManager.OnPortalReached -= Win;
         }
         
         public void PlaySound(List<AudioClip> ac)
@@ -381,7 +390,7 @@ namespace Manoeuvre
             StartCoroutine(Health.deathManoeuvre.DeathManoeuvreCoroutine(camera.transform));
 
             //hide UI
-            gc_PlayerHealthManager.Instance.DisableUI();
+            gc_PlayerHealthManager.Instance.FailUi();
 
             GetComponent<ManoeuvreFPSController>().enabled = false;
             camController.enabled = false;

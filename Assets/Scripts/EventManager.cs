@@ -28,4 +28,16 @@ public class EventManager
 			OnEnemyDamaged(id, amount);
 		}
 	}
+	
+	public delegate void PortalReached();
+
+	public static event PortalReached OnPortalReached;
+
+	public static void ReachPortal()
+	{
+		if (OnPortalReached != null)
+		{
+			OnPortalReached();
+		}
+	}
 }

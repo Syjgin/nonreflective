@@ -68,7 +68,9 @@
     <Compile Include="Assets\Scripts\EventManager.cs" />
     <Compile Include="Assets\Scripts\Level\BaseTrap.cs" />
     <Compile Include="Assets\Scripts\Level\GameController.cs" />
+    <Compile Include="Assets\Scripts\Portal.cs" />
     <Compile Include="Assets\Scripts\Sucker.cs" />
+    <Compile Include="Assets\Scripts\TagUtils.cs" />
     <None Include="Assets\MagicMirror\Prefab\MirrorShaderOld.shader" />
     <None Include="Assets\Manoeuvre FPS Controller FREE\Prototyping\Prototyping\Shaders\WorldCoordDiffuse.shader" />
     <None Include="Assets\MagicMirror\Prefab\MirrorShaderBumpMap.shader" />

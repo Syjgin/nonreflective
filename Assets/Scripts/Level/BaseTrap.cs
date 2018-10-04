@@ -12,7 +12,7 @@ public class BaseTrap : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		if (IsPlayer(other))
+		if (TagUtils.IsPlayer(other))
 		{
 			EventManager.AddDamageToPlayer(_playerDamageAmount);
 			if (!_isDamaging)
@@ -25,15 +25,10 @@ public class BaseTrap : MonoBehaviour
 
 	private void OnTriggerExit(Collider other)
 	{
-		if (IsPlayer(other))
+		if (TagUtils.IsPlayer(other))
 		{
 			_isDamaging = false;
 		}	
-	}
-
-	private static bool IsPlayer(Collider other)
-	{
-		return other.gameObject.CompareTag("Player");
 	}
 
 	private IEnumerator AddDamage()

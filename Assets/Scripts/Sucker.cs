@@ -12,7 +12,7 @@ public class Sucker : MonoBehaviour
 	
 	private void OnTriggerEnter(Collider other)
 	{
-		if (IsEnemy(other))
+		if (TagUtils.IsEnemy(other))
 		{
 			triggered = true;
 			this.other = other;
@@ -23,15 +23,10 @@ public class Sucker : MonoBehaviour
 
 	private void OnTriggerExit(Collider other)
 	{
-		if (IsEnemy(other))
+		if (TagUtils.IsEnemy(other))
 		{
 			_fpsController.AttackManager.RemoveTarget();
 		}
-	}
-
-	private static bool IsEnemy(Collider other)
-	{
-		return other.gameObject.CompareTag("enemy");
 	}
 
 	private void Update()
