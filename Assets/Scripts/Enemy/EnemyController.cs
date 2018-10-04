@@ -13,11 +13,11 @@ namespace Enemy
 	[SerializeField] private int _hp;
 	[SerializeField] private float _targetCorrectionTimer = 5f;
 	[SerializeField] private float _nearTargetCorrectionTimer = 0.5f;
-	[SerializeField] private float _attackDistance = 1f;
 	[SerializeField] private float _attackTimer = 1f;
 	[SerializeField] private int _attackAmount = 3;
 	[SerializeField] private EnemyAttack _attacker;
 	
+	private float _attackDistance;
 	private float _currentAttackTimer;
 	private float _currentTimer;
 	private GameObject _player;
@@ -27,7 +27,9 @@ namespace Enemy
 	{
 		_currentTimer = _targetCorrectionTimer;
 		_currentAttackTimer = _attackTimer;
+		_attackDistance = _attacker.transform.localPosition.z;
 		_agent = GetComponent<NavMeshAgent>();
+		_agent.stoppingDistance = _attackDistance;
 		_player = GameObject.FindGameObjectWithTag("Player");
 	}
 
@@ -68,6 +70,10 @@ namespace Enemy
 				? _targetCorrectionTimer
 				: _nearTargetCorrectionTimer;
 		Attack(dist < _attackDistance && _attacker.IsPlayerVisible);
+		if (dist < _attackDistance && !_attacker.IsPlayerVisible)
+		{
+			transform.Rotate(Vector3.up, 5f);
+		}
 		if (dist > _attackDistance)
 		{
 			MoveToPlayer(currentTimer);
@@ -88,7 +94,7 @@ namespace Enemy
 	{
 		if (isAllowed)
 		{
-			_agent.destination = transform.position;
+			//_agent.destination = transform.position;
 			if (_currentAttackTimer >= _attackTimer)
 			{
 				_currentAttackTimer = 0;
