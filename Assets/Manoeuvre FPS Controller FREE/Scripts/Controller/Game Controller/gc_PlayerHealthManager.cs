@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -22,6 +23,8 @@ namespace Manoeuvre
         [HideInInspector]
         public Image DamageSlider;
 
+        [SerializeField] private GameObject _failDialogue;
+        [SerializeField] private GameObject _winDialogue;
 
         public static gc_PlayerHealthManager Instance;
 
@@ -103,27 +106,25 @@ namespace Manoeuvre
 
         public void FailUi()
         {
-            List<CanvasGroup> cg = new List<CanvasGroup>();
-
-            CanvasGroup HUD = GameObject.Find("HUD").GetComponent<CanvasGroup>();
-            cg.Add(HUD);
-            StartCoroutine(hideUI(cg));
-            CanvasGroup endDialogue = GameObject.Find("FailDialogue").GetComponent<CanvasGroup>();
-            StartCoroutine(showUI(endDialogue));
+            ShowDialogue(_failDialogue);
         }
         
         public void WinUi()
+        {
+            ShowDialogue(_winDialogue);
+        }
+
+        private void ShowDialogue(GameObject dialogue)
         {
             List<CanvasGroup> cg = new List<CanvasGroup>();
 
             CanvasGroup HUD = GameObject.Find("HUD").GetComponent<CanvasGroup>();
             cg.Add(HUD);
             StartCoroutine(hideUI(cg));
-            CanvasGroup endDialogue = GameObject.Find("WinDialogue").GetComponent<CanvasGroup>();
+            dialogue.gameObject.SetActive(true);
+            CanvasGroup endDialogue = dialogue.GetComponent<CanvasGroup>();
             StartCoroutine(showUI(endDialogue));
         }
-        
-        
         
         IEnumerator showUI(CanvasGroup cg)
         {

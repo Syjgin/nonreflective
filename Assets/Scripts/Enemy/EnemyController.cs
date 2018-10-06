@@ -10,16 +10,19 @@ namespace Enemy
 {
 
 	public int Id;
-	[SerializeField] private int _hp;
-	[SerializeField] private float _targetCorrectionTimer = 5f;
-	[SerializeField] private float _nearTargetCorrectionTimer = 0.5f;
+	[SerializeField] private int _hp = 50;
+	[SerializeField] private float _targetCorrectionTimer = 20f;
 	[SerializeField] private float _attackTimer = 1f;
-	[SerializeField] private int _attackAmount = 3;
+	[SerializeField] private int _attackAmount = 5;
 	[SerializeField] private EnemyAttack _attacker;
-	
-	private float _attackDistance;
+	[SerializeField] private float _maxDistance = 50f;
+	[SerializeField] private float _rotateReactionTime = 2f;
+
 	private float _currentAttackTimer;
 	private float _currentTimer;
+	private float _currentRotationTimer = 0f;
+	private bool _rotationTimerStarted = false;
+	[SerializeField] private float _attackDistance = 2;
 	private GameObject _player;
 	private NavMeshAgent _agent;
 	
@@ -27,8 +30,8 @@ namespace Enemy
 	{
 		_currentTimer = _targetCorrectionTimer;
 		_currentAttackTimer = _attackTimer;
-		_attackDistance = _attacker.transform.localPosition.z;
 		_agent = GetComponent<NavMeshAgent>();
+		_agent.stoppingDistance = _attackDistance;
 		_player = GameObject.FindGameObjectWithTag("Player");
 	}
 
@@ -63,19 +66,34 @@ namespace Enemy
 	private void Update()
 	{
 		var dist = Vector3.Distance(transform.position, _player.transform.position);
-		var reactsSlowly = !_attacker.IsPlayerVisible;
-		var currentTimer =
-			 reactsSlowly
-				? _targetCorrectionTimer
-				: _nearTargetCorrectionTimer;
-		Attack(dist < _attackDistance && _attacker.IsPlayerVisible);
-		if (dist < _attackDistance && !_attacker.IsPlayerVisible)
+		var distCoef = dist / _maxDistance;
+		var currentUpdateTimer = distCoef * _targetCorrectionTimer;
+		Attack(_attacker.IsPlayerVisible);
+		if (
+			dist < _attackDistance 
+			&& !_attacker.IsPlayerVisible)
 		{
-			transform.Rotate(Vector3.up, 5f);
+			if (!_rotationTimerStarted)
+			{
+				_currentRotationTimer = 0f;
+				_rotationTimerStarted = true;	
+			}
+		}
+		else
+		{
+			_rotationTimerStarted = false;
+		}
+		if (_rotationTimerStarted)
+		{
+			_currentRotationTimer += Time.deltaTime;
+			if (_currentRotationTimer >= _rotateReactionTime)
+			{
+				transform.Rotate(Vector3.up, 5f);	
+			}
 		}
 		if (dist > _attackDistance)
 		{
-			MoveToPlayer(currentTimer);
+			MoveToPlayer(currentUpdateTimer);
 		}
 		_currentTimer += Time.deltaTime;
 	}
@@ -93,7 +111,6 @@ namespace Enemy
 	{
 		if (isAllowed)
 		{
-			_agent.destination = transform.position;
 			if (_currentAttackTimer >= _attackTimer)
 			{
 				_currentAttackTimer = 0;
