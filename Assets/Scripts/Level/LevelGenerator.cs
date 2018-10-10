@@ -9,8 +9,7 @@ public class LevelGenerator {
 	public enum CellType
 	{
 		None,
-		CentralMirror,
-		AllDirections, //3 all
+		CentralMirror, //1 all
 		SixDirectionsHorizontal,
 		SixDirectionsVertical, //2 six
 		FiveDirectionsRight,
@@ -68,18 +67,6 @@ public class LevelGenerator {
 			case CellType.None: 
 				return new List<OutputType>();
 			case CellType.CentralMirror:
-				return new List<OutputType>()
-				{
-					OutputType.Bottom, 
-					OutputType.BottomLeft, 
-					OutputType.Left, 
-					OutputType.TopLeft, 
-					OutputType.Top, 
-					OutputType.TopRight, 
-					OutputType.Right, 
-					OutputType.BottomRight
-				};
-			case CellType.AllDirections:
 				return new List<OutputType>()
 				{
 					OutputType.Bottom, 
@@ -379,316 +366,147 @@ public class LevelGenerator {
 		var isTopRightOpened = IsOutputOpenedByNeigbour(neighbors, OutputType.TopRight);
 		var isRightOpened = IsOutputOpenedByNeigbour(neighbors, OutputType.Right);
 		var isBottomRightOpened = IsOutputOpenedByNeigbour(neighbors, OutputType.BottomRight);
+		Debug.Log("---outputs---");
+		Debug.Log("is bottom opened: " + isBottomOpened);
+		Debug.Log("is bottom left opened: " + isBottomLeftOpened);
+		Debug.Log("is left opened: " + isLeftOpened);
+		Debug.Log("is top left opened: " + isTopLeftOpened);
+		Debug.Log("is top opened: " + isTopOpened);
+		Debug.Log("is top right opened: " + isTopRightOpened);
+		Debug.Log("is right opened: " + isRightOpened);
+		Debug.Log("is bottom right opened: " + isBottomRightOpened);
 		var targetCells = Enum.GetValues(typeof(CellType)).Cast<CellType>().ToList();
 		targetCells.Remove(CellType.None);
+		targetCells.Remove(CellType.CentralMirror);
 		if (isBottomOpened)
 		{
-			targetCells.Remove(CellType.SixDirectionsHorizontal);
-			targetCells.Remove(CellType.FiveDirectionsTop);
-			targetCells.Remove(CellType.FourDirectionsDialognal);
-			targetCells.Remove(CellType.ThreeDirectionsHorizontalTop);
-			targetCells.Remove(CellType.ThreeDirectionsDiagonalTopLeft);
-			targetCells.Remove(CellType.ThreeDirectionsDiagonalTopRight);
-			targetCells.Remove(CellType.ThreeDirectionsDiagonalBottomLeft);
-			targetCells.Remove(CellType.ThreeDirectionsDiagonalBottomRight);
-			targetCells.Remove(CellType.TwoDirectionsTopLeft);
-			targetCells.Remove(CellType.TwoDirectionsTopRight);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalLeft);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalRight);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalTop);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalBottom);
-			targetCells.Remove(CellType.TwoDirectionsHorizontal);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalBottomRightTopLeft);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalBottomLeftTopRight);
-			targetCells.Remove(CellType.OneDirectionBottomRight);
-			targetCells.Remove(CellType.OneDirectionRight);
-			targetCells.Remove(CellType.OneDirectionTopRight);
-			targetCells.Remove(CellType.OneDirectionTop);
-			targetCells.Remove(CellType.OneDirectionTopLeft);
-			targetCells.Remove(CellType.OneDirectionLeft);
-			targetCells.Remove(CellType.OneDirectionBottomLeft);																					
+			targetCells.RemoveAll(type => !OutputsForCell(type).Contains(OutputType.Bottom));													
 		}
 
 		if (isBottomLeftOpened)
 		{
-			targetCells.Remove(CellType.FiveDirectionsTop);
-			targetCells.Remove(CellType.FourDirections);
-			targetCells.Remove(CellType.ThreeDirectionsVerticalLeft);
-			targetCells.Remove(CellType.ThreeDirectionsVerticalRight);
-			targetCells.Remove(CellType.ThreeDirectionsHorizontalTop);
-			targetCells.Remove(CellType.ThreeDirectionsHorizontalBottom);
-			targetCells.Remove(CellType.ThreeDirectionsDiagonalTopRight);
-			targetCells.Remove(CellType.TwoDirectionsTopLeft);
-			targetCells.Remove(CellType.TwoDirectionsTopRight);
-			targetCells.Remove(CellType.TwoDirectionsBottomLeft);
-			targetCells.Remove(CellType.TwoDirectionsBottomRight);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalTop);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalRight);
-			targetCells.Remove(CellType.TwoDirectionsVertical);
-			targetCells.Remove(CellType.TwoDirectionsHorizontal);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalBottomRightTopLeft);
-			targetCells.Remove(CellType.OneDirectionBottom);
-			targetCells.Remove(CellType.OneDirectionBottomRight);
-			targetCells.Remove(CellType.OneDirectionRight);
-			targetCells.Remove(CellType.OneDirectionTopRight);
-			targetCells.Remove(CellType.OneDirectionTop);
-			targetCells.Remove(CellType.OneDirectionTopLeft);
-			targetCells.Remove(CellType.OneDirectionLeft);
+			targetCells.RemoveAll(type => !OutputsForCell(type).Contains(OutputType.BottomLeft));
 		}
 
 		if (isLeftOpened)
 		{
-			targetCells.Remove(CellType.SixDirectionsVertical);
-			targetCells.Remove(CellType.FiveDirectionsRight);
-			targetCells.Remove(CellType.FourDirectionsDialognal);	
-			targetCells.Remove(CellType.ThreeDirectionsVerticalRight);
-			targetCells.Remove(CellType.ThreeDirectionsDiagonalTopLeft);
-			targetCells.Remove(CellType.ThreeDirectionsDiagonalTopRight);
-			targetCells.Remove(CellType.ThreeDirectionsDiagonalBottomLeft);
-			targetCells.Remove(CellType.ThreeDirectionsDiagonalBottomRight);
-			targetCells.Remove(CellType.TwoDirectionsTopRight);		
-			targetCells.Remove(CellType.TwoDirectionsBottomRight);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalLeft);	
-			targetCells.Remove(CellType.TwoDirectionsDiagonalRight);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalTop);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalBottom);
-			targetCells.Remove(CellType.TwoDirectionsVertical);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalBottomRightTopLeft);		
-			targetCells.Remove(CellType.TwoDirectionsDiagonalBottomLeftTopRight);
-			targetCells.Remove(CellType.OneDirectionBottom);
-			targetCells.Remove(CellType.OneDirectionBottom);
-			targetCells.Remove(CellType.OneDirectionBottomRight);
-			targetCells.Remove(CellType.OneDirectionRight);
-			targetCells.Remove(CellType.OneDirectionTopRight);
-			targetCells.Remove(CellType.OneDirectionTop);
-			targetCells.Remove(CellType.OneDirectionTopLeft);
-			targetCells.Remove(CellType.OneDirectionBottomLeft);		 
+			targetCells.RemoveAll(type => !OutputsForCell(type).Contains(OutputType.Left));
 		}
 
 		if (isTopLeftOpened)
 		{
-			targetCells.Remove(CellType.FiveDirectionsRight);
-			targetCells.Remove(CellType.FiveDirectionsBottom);
-			targetCells.Remove(CellType.FourDirections);
-			targetCells.Remove(CellType.ThreeDirectionsVerticalLeft);
-			targetCells.Remove(CellType.ThreeDirectionsVerticalRight);
-			targetCells.Remove(CellType.ThreeDirectionsHorizontalTop);
-			targetCells.Remove(CellType.ThreeDirectionsHorizontalBottom);
-			targetCells.Remove(CellType.ThreeDirectionsDiagonalBottomRight);
-			targetCells.Remove(CellType.TwoDirectionsTopLeft);
-			targetCells.Remove(CellType.TwoDirectionsTopRight);
-			targetCells.Remove(CellType.TwoDirectionsBottomLeft);
-			targetCells.Remove(CellType.TwoDirectionsBottomRight);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalRight);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalBottom);	
-			targetCells.Remove(CellType.TwoDirectionsVertical);
-			targetCells.Remove(CellType.TwoDirectionsHorizontal);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalBottomLeftTopRight);
-			targetCells.Remove(CellType.OneDirectionBottom);
-			targetCells.Remove(CellType.OneDirectionBottomRight);
-			targetCells.Remove(CellType.OneDirectionRight);
-			targetCells.Remove(CellType.OneDirectionTopRight);
-			targetCells.Remove(CellType.OneDirectionTop);
-			targetCells.Remove(CellType.OneDirectionLeft);
-			targetCells.Remove(CellType.OneDirectionBottomLeft);
+			targetCells.RemoveAll(type => !OutputsForCell(type).Contains(OutputType.TopLeft));
 		}
 
 		if (isTopOpened)
 		{
-			targetCells.Remove(CellType.SixDirectionsHorizontal);
-			targetCells.Remove(CellType.FiveDirectionsBottom);
-			targetCells.Remove(CellType.FourDirectionsDialognal);	
-			targetCells.Remove(CellType.ThreeDirectionsHorizontalBottom);
-			targetCells.Remove(CellType.ThreeDirectionsDiagonalTopLeft);
-			targetCells.Remove(CellType.ThreeDirectionsDiagonalTopRight);
-			targetCells.Remove(CellType.ThreeDirectionsDiagonalBottomLeft);
-			targetCells.Remove(CellType.ThreeDirectionsDiagonalBottomRight);
-			targetCells.Remove(CellType.TwoDirectionsBottomLeft);
-			targetCells.Remove(CellType.TwoDirectionsBottomRight);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalLeft);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalRight);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalTop);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalBottom);
-			targetCells.Remove(CellType.TwoDirectionsHorizontal);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalBottomRightTopLeft);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalBottomLeftTopRight);
-			targetCells.Remove(CellType.OneDirectionBottom);
-			targetCells.Remove(CellType.OneDirectionBottomRight);
-			targetCells.Remove(CellType.OneDirectionRight);
-			targetCells.Remove(CellType.OneDirectionTopRight);
-			targetCells.Remove(CellType.OneDirectionTopLeft);
-			targetCells.Remove(CellType.OneDirectionLeft);
-			targetCells.Remove(CellType.OneDirectionBottomLeft);			
+			targetCells.RemoveAll(type => !OutputsForCell(type).Contains(OutputType.Top));
 		}
 
 		if (isTopRightOpened)
 		{
-			targetCells.Remove(CellType.FiveDirectionsLeft);
-			targetCells.Remove(CellType.FiveDirectionsBottom);
-			targetCells.Remove(CellType.FourDirections);
-			targetCells.Remove(CellType.ThreeDirectionsVerticalLeft);
-			targetCells.Remove(CellType.ThreeDirectionsVerticalRight);
-			targetCells.Remove(CellType.ThreeDirectionsHorizontalTop);
-			targetCells.Remove(CellType.ThreeDirectionsHorizontalBottom);
-			targetCells.Remove(CellType.ThreeDirectionsDiagonalBottomLeft);
-			targetCells.Remove(CellType.TwoDirectionsTopLeft);
-			targetCells.Remove(CellType.TwoDirectionsTopRight);
-			targetCells.Remove(CellType.TwoDirectionsBottomLeft);
-			targetCells.Remove(CellType.TwoDirectionsBottomRight);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalLeft);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalBottom);
-			targetCells.Remove(CellType.TwoDirectionsVertical);
-			targetCells.Remove(CellType.TwoDirectionsHorizontal);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalBottomRightTopLeft);
-			targetCells.Remove(CellType.OneDirectionBottom);
-			targetCells.Remove(CellType.OneDirectionBottomRight);
-			targetCells.Remove(CellType.OneDirectionRight);
-			targetCells.Remove(CellType.OneDirectionTop);
-			targetCells.Remove(CellType.OneDirectionTopLeft);
-			targetCells.Remove(CellType.OneDirectionLeft);
-			targetCells.Remove(CellType.OneDirectionBottomLeft);		 						
+			targetCells.RemoveAll(type => !OutputsForCell(type).Contains(OutputType.TopRight));	
 		}
 
 		if (isRightOpened)
 		{
-			targetCells.Remove(CellType.SixDirectionsVertical);
-			targetCells.Remove(CellType.FiveDirectionsLeft);
-			targetCells.Remove(CellType.FourDirectionsDialognal);
-			targetCells.Remove(CellType.ThreeDirectionsVerticalLeft);
-			targetCells.Remove(CellType.ThreeDirectionsDiagonalTopLeft);
-			targetCells.Remove(CellType.ThreeDirectionsDiagonalTopRight);
-			targetCells.Remove(CellType.ThreeDirectionsDiagonalBottomLeft);
-			targetCells.Remove(CellType.ThreeDirectionsDiagonalBottomRight);
-			targetCells.Remove(CellType.TwoDirectionsTopLeft);
-			targetCells.Remove(CellType.TwoDirectionsBottomLeft);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalLeft);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalRight);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalTop);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalBottom);
-			targetCells.Remove(CellType.TwoDirectionsVertical);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalBottomRightTopLeft);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalBottomLeftTopRight);
-			targetCells.Remove(CellType.OneDirectionBottom);
-			targetCells.Remove(CellType.OneDirectionBottomRight);
-			targetCells.Remove(CellType.OneDirectionTopRight);
-			targetCells.Remove(CellType.OneDirectionTop);
-			targetCells.Remove(CellType.OneDirectionTopLeft);
-			targetCells.Remove(CellType.OneDirectionLeft);
-			targetCells.Remove(CellType.OneDirectionBottomLeft); 			
+			targetCells.RemoveAll(type => !OutputsForCell(type).Contains(OutputType.Right)); 			
 		}
 
 		if (isBottomRightOpened)
 		{
-			targetCells.Remove(CellType.FiveDirectionsLeft);
-			targetCells.Remove(CellType.FourDirections);
-			targetCells.Remove(CellType.ThreeDirectionsVerticalLeft);
-			targetCells.Remove(CellType.ThreeDirectionsVerticalRight);
-			targetCells.Remove(CellType.ThreeDirectionsHorizontalTop);
-			targetCells.Remove(CellType.ThreeDirectionsHorizontalBottom);
-			targetCells.Remove(CellType.ThreeDirectionsDiagonalTopLeft);
-			targetCells.Remove(CellType.TwoDirectionsTopLeft);
-			targetCells.Remove(CellType.TwoDirectionsTopRight);
-			targetCells.Remove(CellType.TwoDirectionsBottomLeft);
-			targetCells.Remove(CellType.TwoDirectionsBottomRight);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalLeft);
-			targetCells.Remove(CellType.TwoDirectionsDiagonalTop);
-			targetCells.Remove(CellType.TwoDirectionsVertical);
-			targetCells.Remove(CellType.TwoDirectionsHorizontal);	
-			targetCells.Remove(CellType.TwoDirectionsDiagonalBottomLeftTopRight);
-			targetCells.Remove(CellType.OneDirectionBottom);
-			targetCells.Remove(CellType.OneDirectionRight);
-			targetCells.Remove(CellType.OneDirectionTopRight);
-			targetCells.Remove(CellType.OneDirectionTop);
-			targetCells.Remove(CellType.OneDirectionTopLeft);
-			targetCells.Remove(CellType.OneDirectionLeft);
-			targetCells.Remove(CellType.OneDirectionBottomLeft);
+			targetCells.RemoveAll(type => !OutputsForCell(type).Contains(OutputType.BottomRight));
 		}
 		return targetCells;
 	}
 
+	private int side;
+
 	public CellType[] GenerateLevel(int side)
 	{
+		this.side = side;
 		Random.InitState((int) System.DateTime.Now.Ticks);
 		var result = new CellType[side * side];
+		for (int i = 0; i < side * side; i++)
+		{
+			result[i] = CellType.None;
+		}
 		for (int i = 0; i < side; i++)
 		{
 			for (int j = 0; j < side; j++)
 			{
 				var neighbors = new CellType[8];
+				for (int k = 0; k < 8; k++)
+				{
+					neighbors[k] = CellType.None;
+				}
 				if (i < side - 1)
 				{
-					neighbors[(int) OutputType.Bottom] = GetByCoordinates(result, i + 1, j, side);
-				}
-				else
-				{
-					neighbors[(int) OutputType.Bottom] = CellType.None;
+					neighbors[(int) OutputType.Bottom] = GetByCoordinates(result, i + 1, j);
 				}
 				if (i > 0)
 				{
-					neighbors[(int) OutputType.Top] = GetByCoordinates(result, i - 1, j, side);
-				}
-				else
-				{
-					neighbors[(int) OutputType.Top] = CellType.None;
+					neighbors[(int) OutputType.Top] = GetByCoordinates(result, i - 1, j);
 				}
 				if (j > 0)
 				{
-					neighbors[(int) OutputType.Left] = GetByCoordinates(result, i, j - 1, side);
-				}
-				else
-				{
-					neighbors[(int) OutputType.Left] = CellType.None;
+					neighbors[(int) OutputType.Left] = GetByCoordinates(result, i, j - 1);
 				}
 				if (j < side - 1)
 				{
-					neighbors[(int) OutputType.Right] = GetByCoordinates(result, i, j + 1, side);
-				}
-				else
-				{
-					neighbors[(int) OutputType.Left] = CellType.None;
+					neighbors[(int) OutputType.Right] = GetByCoordinates(result, i, j + 1);
 				}
 				if (j > 0 && i < side - 1)
 				{
-					neighbors[(int) OutputType.BottomLeft] = GetByCoordinates(result, i + 1, j - 1, side);
-				}
-				else
-				{
-					neighbors[(int) OutputType.BottomLeft] = CellType.None;
+					neighbors[(int) OutputType.BottomLeft] = GetByCoordinates(result, i + 1, j - 1);
 				}
 				if(j < side - 1 && i < side - 1)
 				{
-					neighbors[(int) OutputType.BottomRight] = GetByCoordinates(result, i + 1, j + 1, side);
-				}
-				else
-				{
-					neighbors[(int) OutputType.BottomRight] = CellType.None;
+					neighbors[(int) OutputType.BottomRight] = GetByCoordinates(result, i + 1, j + 1);
 				}
 				if (i > 0 && j < side - 1)
 				{
-					neighbors[(int) OutputType.TopRight] = GetByCoordinates(result, i - 1, j + 1, side);
-				}
-				else
-				{
-					neighbors[(int) OutputType.TopRight] = CellType.None;
+					neighbors[(int) OutputType.TopRight] = GetByCoordinates(result, i - 1, j + 1);
 				}
 				if (i > 0 && j > 0)
 				{
-					neighbors[(int) OutputType.TopLeft] = GetByCoordinates(result, i - 1, j - 1, side);
+					neighbors[(int) OutputType.TopLeft] = GetByCoordinates(result, i - 1, j - 1);
 				}
-				else
-				{
-					neighbors[(int) OutputType.TopLeft] = CellType.None;
-				}
-
+				Debug.Log("x:" + i);
+				Debug.Log("y:" + j);
+				Debug.Log("---neighbours:---");
+				Debug.Log("Bottom:");
+				Debug.Log(neighbors[(int)OutputType.Bottom]);
+				Debug.Log("BottomLeft:");
+				Debug.Log(neighbors[(int)OutputType.BottomLeft]);
+				Debug.Log("Left:");
+				Debug.Log(neighbors[(int)OutputType.Left]);
+				Debug.Log("TopLeft:");
+				Debug.Log(neighbors[(int)OutputType.TopLeft]);
+				Debug.Log("Top:");
+				Debug.Log(neighbors[(int)OutputType.Top]);
+				Debug.Log("TopRight:");
+				Debug.Log(neighbors[(int)OutputType.TopRight]);
+				Debug.Log("Right:");
+				Debug.Log(neighbors[(int)OutputType.Right]);
+				Debug.Log("BottomRight:");
+				Debug.Log(neighbors[(int)OutputType.BottomRight]);
 				var acceptableNeighbors = GetAcceptableCellTypes(neighbors);
-				var decision = acceptableNeighbors[Random.Range(0, acceptableNeighbors.Count)];
+				Debug.Log("---possible variants:---");
+				foreach (var acceptableNeighbor in acceptableNeighbors)
+				{
+					Debug.Log(acceptableNeighbor);	
+				}
+				var decision = (acceptableNeighbors.Count == 0) ? CellType.CentralMirror : acceptableNeighbors[Random.Range(0, acceptableNeighbors.Count)];
+				Debug.Log("---decision:---");
+				Debug.Log(decision);
 				result[i * side + j] = decision;
 			}
 		}
 		return result;
 	}
 
-	private CellType GetByCoordinates(CellType[] level, int i, int j, int side)
+	private CellType GetByCoordinates(CellType[] level, int i, int j)
 	{
 		return level[i * side + j];
 	}
