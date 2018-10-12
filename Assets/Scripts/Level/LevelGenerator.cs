@@ -366,7 +366,7 @@ public class LevelGenerator {
 		var isTopRightOpened = IsOutputOpenedByNeigbour(neighbors, OutputType.TopRight);
 		var isRightOpened = IsOutputOpenedByNeigbour(neighbors, OutputType.Right);
 		var isBottomRightOpened = IsOutputOpenedByNeigbour(neighbors, OutputType.BottomRight);
-		Debug.Log("---outputs---");
+		/*Debug.Log("---outputs---");
 		Debug.Log("is bottom opened: " + isBottomOpened);
 		Debug.Log("is bottom left opened: " + isBottomLeftOpened);
 		Debug.Log("is left opened: " + isLeftOpened);
@@ -374,7 +374,7 @@ public class LevelGenerator {
 		Debug.Log("is top opened: " + isTopOpened);
 		Debug.Log("is top right opened: " + isTopRightOpened);
 		Debug.Log("is right opened: " + isRightOpened);
-		Debug.Log("is bottom right opened: " + isBottomRightOpened);
+		Debug.Log("is bottom right opened: " + isBottomRightOpened);*/
 		var targetCells = Enum.GetValues(typeof(CellType)).Cast<CellType>().ToList();
 		targetCells.Remove(CellType.None);
 		targetCells.Remove(CellType.CentralMirror);
@@ -425,12 +425,8 @@ public class LevelGenerator {
 	public CellType[] GenerateLevel(int side)
 	{
 		this.side = side;
-		Random.InitState((int) System.DateTime.Now.Ticks);
+		Random.InitState((int) DateTime.Now.Ticks);
 		var result = new CellType[side * side];
-		for (int i = 0; i < side * side; i++)
-		{
-			result[i] = CellType.None;
-		}
 		for (int i = 0; i < side; i++)
 		{
 			for (int j = 0; j < side; j++)
@@ -472,7 +468,7 @@ public class LevelGenerator {
 				{
 					neighbors[(int) OutputType.TopLeft] = GetByCoordinates(result, i - 1, j - 1);
 				}
-				Debug.Log("x:" + i);
+				/*Debug.Log("x:" + i);
 				Debug.Log("y:" + j);
 				Debug.Log("---neighbours:---");
 				Debug.Log("Bottom:");
@@ -490,16 +486,16 @@ public class LevelGenerator {
 				Debug.Log("Right:");
 				Debug.Log(neighbors[(int)OutputType.Right]);
 				Debug.Log("BottomRight:");
-				Debug.Log(neighbors[(int)OutputType.BottomRight]);
+				Debug.Log(neighbors[(int)OutputType.BottomRight]);*/
 				var acceptableNeighbors = GetAcceptableCellTypes(neighbors);
-				Debug.Log("---possible variants:---");
+				/*Debug.Log("---possible variants:---");
 				foreach (var acceptableNeighbor in acceptableNeighbors)
 				{
 					Debug.Log(acceptableNeighbor);	
-				}
+				}*/
 				var decision = (acceptableNeighbors.Count == 0) ? CellType.CentralMirror : acceptableNeighbors[Random.Range(0, acceptableNeighbors.Count)];
-				Debug.Log("---decision:---");
-				Debug.Log(decision);
+				/*Debug.Log("---decision:---");
+				Debug.Log(decision);*/
 				result[i * side + j] = decision;
 			}
 		}

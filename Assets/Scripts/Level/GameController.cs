@@ -9,10 +9,7 @@ namespace Level
         {
             var generator = new LevelGenerator();
             var generatedLevel = generator.GenerateLevel(5);
-            foreach (var cellType in generatedLevel)
-            {
-                Debug.Log(cellType);
-            }
+
         }
 
         public void RestartLevel()
