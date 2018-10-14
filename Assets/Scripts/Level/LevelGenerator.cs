@@ -8,48 +8,48 @@ public class LevelGenerator {
 
 	public enum CellType
 	{
-		None,
-		CentralMirror, //1 all
-		SixDirectionsHorizontal,
-		SixDirectionsVertical, //2 six
-		FiveDirectionsRight,
-		FiveDirectionsLeft,
-		FiveDirectionsTop,
-		FiveDirectionsBottom, //4 five
-		FourDirections, 
-		FourDirectionsDialognal, //2 four
-		ThreeDirectionsVerticalLeft,
-		ThreeDirectionsVerticalRight,
-		ThreeDirectionsHorizontalTop,
-		ThreeDirectionsHorizontalBottom,
-		ThreeDirectionsDiagonalTop,
-		ThreeDirectionsDiagonalRight,
-		ThreeDirectionsDiagonalBottom,
-		ThreeDirectionsDiagonalLeft,
-		ThreeDirectionsDiagonalTopLeft,
-		ThreeDirectionsDiagonalTopRight,
-		ThreeDirectionsDiagonalBottomLeft,
-		ThreeDirectionsDiagonalBottomRight, //12 three
-		TwoDirectionsTopLeft,
-		TwoDirectionsTopRight,
-		TwoDirectionsBottomLeft,
-		TwoDirectionsBottomRight,
-		TwoDirectionsDiagonalLeft,
-		TwoDirectionsDiagonalRight,
-		TwoDirectionsDiagonalTop,
-		TwoDirectionsDiagonalBottom,
-		TwoDirectionsVertical,
-		TwoDirectionsHorizontal,
-		TwoDirectionsDiagonalBottomRightTopLeft,
-		TwoDirectionsDiagonalBottomLeftTopRight, //12 two
-		OneDirectionBottom,
-		OneDirectionBottomRight,
-		OneDirectionRight,
-		OneDirectionTopRight,
-		OneDirectionTop,
-		OneDirectionTopLeft,
-		OneDirectionLeft,
-		OneDirectionBottomLeft //8 one
+		None = 0,
+		CentralMirror = 1, //1 all
+		SixDirectionsHorizontal = 2,
+		SixDirectionsVertical = 3, //2 six
+		FiveDirectionsRight = 4,
+		FiveDirectionsLeft = 5,
+		FiveDirectionsTop = 6,
+		FiveDirectionsBottom = 7, //4 five
+		FourDirections = 8, 
+		FourDirectionsDialognal = 9, //2 four
+		ThreeDirectionsVerticalLeft = 10,
+		ThreeDirectionsVerticalRight = 11,
+		ThreeDirectionsHorizontalTop = 12,
+		ThreeDirectionsHorizontalBottom = 13,
+		ThreeDirectionsDiagonalTop = 14,
+		ThreeDirectionsDiagonalRight = 15,
+		ThreeDirectionsDiagonalBottom = 16,
+		ThreeDirectionsDiagonalLeft = 17,
+		ThreeDirectionsDiagonalTopLeft = 18,
+		ThreeDirectionsDiagonalTopRight = 19,
+		ThreeDirectionsDiagonalBottomLeft = 20,
+		ThreeDirectionsDiagonalBottomRight = 21, //12 three
+		TwoDirectionsTopLeft = 22,
+		TwoDirectionsTopRight = 23,
+		TwoDirectionsBottomLeft = 24,
+		TwoDirectionsBottomRight = 25,
+		TwoDirectionsDiagonalLeft = 26,
+		TwoDirectionsDiagonalRight = 27,
+		TwoDirectionsDiagonalTop = 28,
+		TwoDirectionsDiagonalBottom = 29,
+		TwoDirectionsVertical = 30,
+		TwoDirectionsHorizontal = 31,
+		TwoDirectionsDiagonalBottomRightTopLeft = 32,
+		TwoDirectionsDiagonalBottomLeftTopRight = 33, //12 two
+		OneDirectionBottom = 34,
+		OneDirectionBottomRight = 35,
+		OneDirectionRight = 36,
+		OneDirectionTopRight = 37,
+		OneDirectionTop = 38,
+		OneDirectionTopLeft = 39,
+		OneDirectionLeft = 40,
+		OneDirectionBottomLeft = 41 //8 one
 	}
 
 	enum OutputType
