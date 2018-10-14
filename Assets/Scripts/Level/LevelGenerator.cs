@@ -22,10 +22,14 @@ public class LevelGenerator {
 		ThreeDirectionsVerticalRight,
 		ThreeDirectionsHorizontalTop,
 		ThreeDirectionsHorizontalBottom,
+		ThreeDirectionsDiagonalTop,
+		ThreeDirectionsDiagonalRight,
+		ThreeDirectionsDiagonalBottom,
+		ThreeDirectionsDiagonalLeft,
 		ThreeDirectionsDiagonalTopLeft,
 		ThreeDirectionsDiagonalTopRight,
 		ThreeDirectionsDiagonalBottomLeft,
-		ThreeDirectionsDiagonalBottomRight, //8 three
+		ThreeDirectionsDiagonalBottomRight, //12 three
 		TwoDirectionsTopLeft,
 		TwoDirectionsTopRight,
 		TwoDirectionsBottomLeft,
@@ -177,6 +181,34 @@ public class LevelGenerator {
 					OutputType.Bottom, 
 					OutputType.Left, 
 					OutputType.Right, 
+				};
+			case CellType.ThreeDirectionsDiagonalBottom:
+				return new List<OutputType>()
+				{
+					OutputType.Bottom, 
+					OutputType.BottomLeft, 
+					OutputType.BottomRight, 
+				};
+			case CellType.ThreeDirectionsDiagonalLeft:
+				return new List<OutputType>()
+				{
+					OutputType.Left, 
+					OutputType.BottomLeft, 
+					OutputType.TopLeft, 
+				};
+			case CellType.ThreeDirectionsDiagonalTop:
+				return new List<OutputType>()
+				{
+					OutputType.Top, 
+					OutputType.TopLeft, 
+					OutputType.TopRight, 
+				};
+			case CellType.ThreeDirectionsDiagonalRight:
+				return new List<OutputType>()
+				{
+					OutputType.Right, 
+					OutputType.BottomRight, 
+					OutputType.TopRight, 
 				};
 			case CellType.ThreeDirectionsDiagonalTopLeft:
 				return new List<OutputType>()
