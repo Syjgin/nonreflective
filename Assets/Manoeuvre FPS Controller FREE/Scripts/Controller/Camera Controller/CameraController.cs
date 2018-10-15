@@ -27,10 +27,12 @@ namespace Manoeuvre
         Vector3 camPos;
         
         CharacterController charController;
+        public Plane[] FrustumPlanes { get; private set; }
 
         // Use this for initialization
         void Start()
         {
+            FrustumPlanes = GeometryUtility.CalculateFrustumPlanes(GetComponent<Camera>());
             camPos = transform.localPosition;
             charController = GetComponentInParent<CharacterController>();
             fpsController = GetComponentInParent<ManoeuvreFPSController>();

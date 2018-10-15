@@ -1,10 +1,12 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
- 
+using Manoeuvre;
+
 // This is in fact just the Water script from Pro Standard Assets,
 // just with refraction stuff removed.
  
-[ExecuteInEditMode] // Make mirror live-update even when not in play mode
+//[ExecuteInEditMode] // Make mirror live-update even when not in play mode
 public class MirrorReflection : MonoBehaviour
 {
 	public bool m_DisablePixelLights = true;
@@ -19,21 +21,30 @@ public class MirrorReflection : MonoBehaviour
 	private int m_OldReflectionTextureSize = 0;
  
 	private static bool s_InsideRendering = false;
- 
+	private Renderer _renderer;
+	private CameraController _fpsCamera;
+	private BoxCollider _collider;
+
+	private void Awake()
+	{
+		_renderer = GetComponent<Renderer>();
+		_fpsCamera = GameObject.Find("FPS Camera").GetComponent<CameraController>();
+		_collider = GetComponent<BoxCollider>();
+	}
+
 	// This is called when it's known that the object will be rendered by some
 	// camera. We render reflections and do other updates here.
 	// Because the script executes in edit mode, reflections for the scene view
 	// camera will just work!
 	public void OnWillRenderObject()
 	{
-		var rend = GetComponent<Renderer>();
-		if (!enabled || !rend || !rend.sharedMaterial || !rend.enabled)
+		if (!enabled || !_renderer || !_renderer.sharedMaterial || !_renderer.enabled)
 			return;
  
 		Camera cam = Camera.current;
 		if( !cam )
 			return;
- 
+		
 		// Safeguard from recursive reflections.        
 		if( s_InsideRendering )
 			return;
@@ -80,7 +91,7 @@ public class MirrorReflection : MonoBehaviour
 		reflectionCamera.Render();
 		reflectionCamera.transform.position = oldpos;
 		GL.SetRevertBackfacing (false);
-		Material[] materials = rend.sharedMaterials;
+		Material[] materials = _renderer.sharedMaterials;
 		foreach( Material mat in materials ) {
 			if( mat.HasProperty("_ReflectionTex") )
 				mat.SetTexture( "_ReflectionTex", m_ReflectionTexture );
@@ -211,5 +222,22 @@ public class MirrorReflection : MonoBehaviour
 		reflectionMat.m31 = 0F;
 		reflectionMat.m32 = 0F;
 		reflectionMat.m33 = 1F;
+	}
+
+	private void LateUpdate()
+	{
+		if (_fpsCamera != null && _renderer != null && Camera.current != null)
+		{
+			var frustums = _fpsCamera.FrustumPlanes;
+			var visible = GeometryUtility.TestPlanesAABB(frustums, _collider.bounds);
+			if (!visible)
+			{
+				_renderer.enabled = false;
+			}
+			else
+			{
+				_renderer.enabled = Physics.Raycast(Camera.current.transform.position, transform.position, 10);		
+			}
+		}
 	}
 }
