@@ -24,6 +24,7 @@ public class MirrorReflection : MonoBehaviour
 	private Renderer _renderer;
 	private CameraController _fpsCamera;
 	private BoxCollider _collider;
+	public bool IsMirrorEnabled;
 
 	private void Awake()
 	{
@@ -232,11 +233,17 @@ public class MirrorReflection : MonoBehaviour
 			var visible = GeometryUtility.TestPlanesAABB(frustums, _collider.bounds);
 			if (!visible)
 			{
+				//Debug.Log("not visible");
 				_renderer.enabled = false;
+				IsMirrorEnabled = false;
 			}
 			else
 			{
-				_renderer.enabled = Physics.Raycast(Camera.current.transform.position, transform.position, 10);		
+				var distance = Vector3.Distance(_fpsCamera.transform.position, transform.position);
+				var isVisibleByCamera =  distance < 10;
+				//Debug.Log("is visible by camera " +distance + " " + isVisibleByCamera);
+				_renderer.enabled = isVisibleByCamera;
+				IsMirrorEnabled = isVisibleByCamera;
 			}
 		}
 	}

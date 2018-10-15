@@ -32,7 +32,6 @@ namespace Manoeuvre
         // Use this for initialization
         void Start()
         {
-            FrustumPlanes = GeometryUtility.CalculateFrustumPlanes(GetComponent<Camera>());
             camPos = transform.localPosition;
             charController = GetComponentInParent<CharacterController>();
             fpsController = GetComponentInParent<ManoeuvreFPSController>();
@@ -41,7 +40,7 @@ namespace Manoeuvre
         // Update is called once per frame
         void Update()
         {
-
+    
             yRot += Input.GetAxis("Mouse X") * lookSensitivity;
             xRot -= Input.GetAxis("Mouse Y") * lookSensitivity;
 
@@ -52,6 +51,11 @@ namespace Manoeuvre
 
             transform.rotation = Quaternion.Euler(currentXRot, currentYRot, 0);
 
+        }
+
+        private void LateUpdate()
+        {
+            FrustumPlanes = GeometryUtility.CalculateFrustumPlanes(GetComponent<Camera>());
         }
 
         /// <summary>
