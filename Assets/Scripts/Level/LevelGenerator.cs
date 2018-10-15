@@ -452,13 +452,14 @@ public class LevelGenerator {
 		return targetCells;
 	}
 
-	private int side;
+	private int _side;
+	private CellType[] _cells;
 
 	public CellType[] GenerateLevel(int side)
 	{
-		this.side = side;
+		this._side = side;
 		Random.InitState((int) DateTime.Now.Ticks);
-		var result = new CellType[side * side];
+		_cells = new CellType[side*side];
 		for (int i = 0; i < side; i++)
 		{
 			for (int j = 0; j < side; j++)
@@ -470,35 +471,35 @@ public class LevelGenerator {
 				}
 				if (i < side - 1)
 				{
-					neighbors[(int) OutputType.Bottom] = GetByCoordinates(result, i + 1, j);
+					neighbors[(int) OutputType.Bottom] = GetByCoordinates(i + 1, j);
 				}
 				if (i > 0)
 				{
-					neighbors[(int) OutputType.Top] = GetByCoordinates(result, i - 1, j);
+					neighbors[(int) OutputType.Top] = GetByCoordinates(i - 1, j);
 				}
 				if (j > 0)
 				{
-					neighbors[(int) OutputType.Left] = GetByCoordinates(result, i, j - 1);
+					neighbors[(int) OutputType.Left] = GetByCoordinates(i, j - 1);
 				}
 				if (j < side - 1)
 				{
-					neighbors[(int) OutputType.Right] = GetByCoordinates(result, i, j + 1);
+					neighbors[(int) OutputType.Right] = GetByCoordinates(i, j + 1);
 				}
 				if (j > 0 && i < side - 1)
 				{
-					neighbors[(int) OutputType.BottomLeft] = GetByCoordinates(result, i + 1, j - 1);
+					neighbors[(int) OutputType.BottomLeft] = GetByCoordinates(i + 1, j - 1);
 				}
 				if(j < side - 1 && i < side - 1)
 				{
-					neighbors[(int) OutputType.BottomRight] = GetByCoordinates(result, i + 1, j + 1);
+					neighbors[(int) OutputType.BottomRight] = GetByCoordinates(i + 1, j + 1);
 				}
 				if (i > 0 && j < side - 1)
 				{
-					neighbors[(int) OutputType.TopRight] = GetByCoordinates(result, i - 1, j + 1);
+					neighbors[(int) OutputType.TopRight] = GetByCoordinates(i - 1, j + 1);
 				}
 				if (i > 0 && j > 0)
 				{
-					neighbors[(int) OutputType.TopLeft] = GetByCoordinates(result, i - 1, j - 1);
+					neighbors[(int) OutputType.TopLeft] = GetByCoordinates(i - 1, j - 1);
 				}
 				/*Debug.Log("x:" + i);
 				Debug.Log("y:" + j);
@@ -528,14 +529,14 @@ public class LevelGenerator {
 				var decision = (acceptableNeighbors.Count == 0) ? CellType.CentralMirror : acceptableNeighbors[Random.Range(0, acceptableNeighbors.Count)];
 				/*Debug.Log("---decision:---");
 				Debug.Log(decision);*/
-				result[i * side + j] = decision;
+				_cells[i * side + j] = decision;
 			}
 		}
-		return result;
+		return _cells;
 	}
 
-	private CellType GetByCoordinates(CellType[] level, int i, int j)
+	public CellType GetByCoordinates(int i, int j)
 	{
-		return level[i * side + j];
+		return _cells[i * _side + j];
 	}
 }
