@@ -56,6 +56,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\MagicMirror\Demo\DemoScript.cs" />
+    <Compile Include="Assets\MagicMirror\Prefab\MagicMirrorScript.cs" />
     <Compile Include="Assets\Manoeuvre FPS Controller FREE\Scripts\Controller\Camera Controller\CameraController.cs" />
     <Compile Include="Assets\Manoeuvre FPS Controller FREE\Scripts\Controller\FPS Controller\ManoeuvreFPSController.cs" />
     <Compile Include="Assets\Manoeuvre FPS Controller FREE\Scripts\Controller\Game Controller\gc_PlayerHealthManager.cs" />
@@ -70,8 +72,11 @@
     <Compile Include="Assets\Scripts\Portal.cs" />
     <Compile Include="Assets\Scripts\Sucker.cs" />
     <Compile Include="Assets\Scripts\TagUtils.cs" />
+    <None Include="Assets\MagicMirror\Prefab\Material\MagicMirrorBumpShader.shader" />
     <None Include="Assets\Manoeuvre FPS Controller FREE\Prototyping\Prototyping\Shaders\WorldCoordDiffuse.shader" />
     <None Include="Assets\Scripts\MIrrorShader.shader" />
+    <None Include="Assets\MagicMirror\Prefab\Material\MagicMirrorShader.shader" />
+    <None Include="Assets\MagicMirror\Readme.txt" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>/home/chikatori/projects/lampire/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

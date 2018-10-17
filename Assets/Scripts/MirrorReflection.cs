@@ -23,13 +23,16 @@ public class MirrorReflection : MonoBehaviour
 	private static bool s_InsideRendering = false;
 	private Renderer _renderer;
 	private CameraController _fpsCamera;
+	private Camera _camera;
 	private BoxCollider _collider;
 	public bool IsMirrorEnabled;
 
 	private void Awake()
 	{
 		_renderer = GetComponent<Renderer>();
-		_fpsCamera = GameObject.Find("FPS Camera").GetComponent<CameraController>();
+		var fpsCamera = GameObject.Find("FPS Camera");
+		_fpsCamera = fpsCamera.GetComponent<CameraController>();
+		_camera = fpsCamera.GetComponent<Camera>();
 		_collider = GetComponent<BoxCollider>();
 	}
 
@@ -42,7 +45,7 @@ public class MirrorReflection : MonoBehaviour
 		if (!enabled || !_renderer || !_renderer.sharedMaterial || !_renderer.enabled)
 			return;
  
-		Camera cam = Camera.current;
+		Camera cam = _camera;
 		if( !cam )
 			return;
 		
@@ -85,13 +88,13 @@ public class MirrorReflection : MonoBehaviour
  
 		reflectionCamera.cullingMask = ~(1<<4) & m_ReflectLayers.value; // never render water layer
 		reflectionCamera.targetTexture = m_ReflectionTexture;
-		GL.SetRevertBackfacing (true);
+		GL.invertCulling =  true;
 		reflectionCamera.transform.position = newpos;
 		Vector3 euler = cam.transform.eulerAngles;
 		reflectionCamera.transform.eulerAngles = new Vector3(0, euler.y, euler.z);
 		reflectionCamera.Render();
 		reflectionCamera.transform.position = oldpos;
-		GL.SetRevertBackfacing (false);
+		GL.invertCulling = false;
 		Material[] materials = _renderer.sharedMaterials;
 		foreach( Material mat in materials ) {
 			if( mat.HasProperty("_ReflectionTex") )
@@ -227,7 +230,7 @@ public class MirrorReflection : MonoBehaviour
 
 	private void LateUpdate()
 	{
-		if (_fpsCamera != null && _renderer != null && Camera.current != null)
+		if (_fpsCamera != null && _renderer != null && _camera != null)
 		{
 			var frustums = _fpsCamera.FrustumPlanes;
 			var visible = GeometryUtility.TestPlanesAABB(frustums, _collider.bounds);
@@ -240,7 +243,7 @@ public class MirrorReflection : MonoBehaviour
 			else
 			{
 				var distance = Vector3.Distance(_fpsCamera.transform.position, transform.position);
-				var isVisibleByCamera =  distance < 10;
+				var isVisibleByCamera =  distance < 20;
 				//Debug.Log("is visible by camera " +distance + " " + isVisibleByCamera);
 				_renderer.enabled = isVisibleByCamera;
 				IsMirrorEnabled = isVisibleByCamera;
