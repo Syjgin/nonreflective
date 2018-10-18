@@ -461,6 +461,8 @@ namespace DigitalRuby.MagicMirror
 
         private void OnWillRenderObject()
         {
+            if(!_renderer.enabled)
+                return;
             QueueReflection(Camera.current);
         }
 

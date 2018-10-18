@@ -7,6 +7,7 @@ namespace Enemy
         public bool IsPlayerVisible { get; private set; }
         private void OnTriggerEnter(Collider other)
         {
+            
             if (TagUtils.IsPlayer(other))
             {
                 IsPlayerVisible = true;
