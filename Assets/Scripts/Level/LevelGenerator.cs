@@ -8,16 +8,15 @@ public class LevelGenerator {
 
 	public enum CellType
 	{
-		HunterPortal,
-		CornerHunterPortal,
-		Four,
-		Three,
-		ThreeMirror,
-		Two,
-		TwoCurved,
-		TwoCurvedMirror,
-		One,
-		OneMirror
+		HunterPortal = 0,
+		Four = 1,
+		Three = 2,
+		ThreeMirror = 3,
+		Two = 4,
+		TwoCurved = 5,
+		TwoCurvedMirror = 6,
+		One = 7,
+		OneMirror = 8
 	}
 	
 	public class CellDescription
@@ -34,67 +33,67 @@ public class LevelGenerator {
 
 	private CellDescription[] _preset1 = new[]
 	{
-		new CellDescription(CellType.TwoCurvedMirror, 0),
-		new CellDescription(CellType.Three, 270),
-		new CellDescription(CellType.One, 180),
-		new CellDescription(CellType.Four, 0),
-		new CellDescription(CellType.ThreeMirror, 90),
-		new CellDescription(CellType.Three, 90),
-		new CellDescription(CellType.TwoCurved, 270),
+		new CellDescription(CellType.TwoCurvedMirror, 270),
 		new CellDescription(CellType.Three, 180),
-		new CellDescription(CellType.OneMirror, 270)
+		new CellDescription(CellType.One, 90),
+		new CellDescription(CellType.Four, 270),
+		new CellDescription(CellType.ThreeMirror, 0),
+		new CellDescription(CellType.Three, 0),
+		new CellDescription(CellType.TwoCurved, 180),
+		new CellDescription(CellType.Three, 90),
+		new CellDescription(CellType.OneMirror, 180)
 	};
 	
 	private CellDescription[] _preset2 = new[]
 	{
-		new CellDescription(CellType.TwoCurved, 0),
+		new CellDescription(CellType.TwoCurved, 270),
+		new CellDescription(CellType.TwoCurvedMirror, 90),
 		new CellDescription(CellType.TwoCurvedMirror, 180),
-		new CellDescription(CellType.TwoCurvedMirror, 270),
-		new CellDescription(CellType.Three, 180),
-		new CellDescription(CellType.Three, 0),
-		new CellDescription(CellType.Two, 0),
-		new CellDescription(CellType.Four, 0),
-		new CellDescription(CellType.ThreeMirror, 180),
-		new CellDescription(CellType.Two, 90)
+		new CellDescription(CellType.Three, 90),
+		new CellDescription(CellType.Three, 270),
+		new CellDescription(CellType.Two, 270),
+		new CellDescription(CellType.Four, 270),
+		new CellDescription(CellType.ThreeMirror, 90),
+		new CellDescription(CellType.Two, 0)
 	};
 	
 	private CellDescription[] _preset3 = new[]
 	{
-		new CellDescription(CellType.Two, 0),
-		new CellDescription(CellType.TwoCurvedMirror, 270),
-		new CellDescription(CellType.TwoCurved, 90),
-		new CellDescription(CellType.ThreeMirror, 90),
-		new CellDescription(CellType.Four, 0),
-		new CellDescription(CellType.Three, 0),
+		new CellDescription(CellType.Two, 270),
+		new CellDescription(CellType.TwoCurvedMirror, 180),
+		new CellDescription(CellType.TwoCurved, 0),
+		new CellDescription(CellType.ThreeMirror, 0),
+		new CellDescription(CellType.Four, 270),
 		new CellDescription(CellType.Three, 270),
-		new CellDescription(CellType.Three, 90),
-		new CellDescription(CellType.TwoCurvedMirror, 180)
+		new CellDescription(CellType.Three, 180),
+		new CellDescription(CellType.Three, 0),
+		new CellDescription(CellType.TwoCurvedMirror, 90)
 	};
 	
 	private CellDescription[] _preset4 = new[]
 	{
-		new CellDescription(CellType.Two, 90),
-		new CellDescription(CellType.Three, 0),
-		new CellDescription(CellType.TwoCurved, 90),
-		new CellDescription(CellType.TwoCurved, 90),
+		new CellDescription(CellType.Two, 0),
+		new CellDescription(CellType.Three, 270),
 		new CellDescription(CellType.TwoCurved, 0),
-		new CellDescription(CellType.ThreeMirror, 270),
-		new CellDescription(CellType.TwoCurvedMirror, 270),
-		new CellDescription(CellType.Three, 180),
-		new CellDescription(CellType.TwoCurvedMirror, 0)
+		new CellDescription(CellType.TwoCurved, 0),
+		new CellDescription(CellType.TwoCurved, 270),
+		new CellDescription(CellType.ThreeMirror, 180),
+		new CellDescription(CellType.TwoCurvedMirror, 180),
+		new CellDescription(CellType.Three, 90),
+		new CellDescription(CellType.TwoCurvedMirror, 270)
 	};
 	
 	private CellDescription[] _preset5 = new[]
 	{
-		new CellDescription(CellType.OneMirror, 90),
-		new CellDescription(CellType.Three, 0),
+		new CellDescription(CellType.OneMirror, 0),
+		new CellDescription(CellType.Three, 270),
+		new CellDescription(CellType.TwoCurved, 90),
+		new CellDescription(CellType.Three, 90),
+		new CellDescription(CellType.ThreeMirror, 270),
+		new CellDescription(CellType.TwoCurvedMirror, 270),
 		new CellDescription(CellType.TwoCurved, 180),
-		new CellDescription(CellType.Three, 180),
-		new CellDescription(CellType.ThreeMirror, 0),
-		new CellDescription(CellType.TwoCurvedMirror, 0),
-		new CellDescription(CellType.TwoCurved, 270),
-		new CellDescription(CellType.Four, 0),
-		new CellDescription(CellType.TwoCurved, 180)
+		new CellDescription(CellType.Four, 270),
+		new CellDescription(CellType.TwoCurved, 90)
 	};
 
 	public const int Side = 8;
@@ -130,41 +129,10 @@ public class LevelGenerator {
 			for (int j = 0; j < Side; j++)
 			{
 				CellDescription decision = null;
-				if (i == 0)
+				if (i == 0 || j == 0 || i == Side - 1 || j == Side - 1)
 				{
-					if(j == 0)
-						decision = new CellDescription(CellType.CornerHunterPortal, 90);
-					else if(j == Side-1)
-						decision = new CellDescription(CellType.CornerHunterPortal, 180);
-					else 
-						decision = new CellDescription(CellType.HunterPortal, 90); 
+						decision = new CellDescription(CellType.HunterPortal, 0); 
 				} 
-				else if (j == 0)
-				{
-					if (i == Side - 1)
-					{
-						decision = new CellDescription(CellType.CornerHunterPortal, 0);
-					}
-					else
-					{
-						decision = new CellDescription(CellType.HunterPortal, 0);
-					}
-				}
-				else if (j == Side - 1)
-				{
-					if (i == Side - 1)
-					{
-						decision = new CellDescription(CellType.CornerHunterPortal, 270);
-					}
-					else
-					{
-						decision = new CellDescription(CellType.HunterPortal, 180);
-					}
-				} 
-				else if (i == Side - 1)
-				{
-					decision = new CellDescription(CellType.HunterPortal, 270);
-				}
 				else
 				{
 					if (
