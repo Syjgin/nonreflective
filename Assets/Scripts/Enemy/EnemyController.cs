@@ -23,8 +23,22 @@ namespace Enemy
 	private float _currentRotationTimer = 0f;
 	private bool _rotationTimerStarted = false;
 	[SerializeField] private float _attackDistance = 2;
+	[SerializeField]
+	private List<AudioClip> _walkSounds = new List<AudioClip>();
+	[SerializeField]
+	private List<AudioClip> _attackSounds = new List<AudioClip>();
+	[SerializeField]
+	private List<AudioClip> _woundSounds = new List<AudioClip>();
+	[SerializeField]
+	private List<AudioClip> _deathSounds = new List<AudioClip>();
 	private GameObject _player;
 	private NavMeshAgent _agent;
+	[SerializeField]
+	private AudioSource _audioSource;
+	[SerializeField]
+	private AudioSource _walkAudio;
+	private bool _isWalking;
+	private float _walkSoundDelay;
 	
 	private void Awake()
 	{
@@ -33,6 +47,8 @@ namespace Enemy
 		_agent = GetComponent<NavMeshAgent>();
 		_agent.stoppingDistance = _attackDistance;
 		_player = GameObject.FindGameObjectWithTag("Player");
+		_walkSoundDelay = 1 / _agent.speed;
+		StartCoroutine(PlayFootSound());
 	}
 
 	private void OnEnable()
@@ -69,6 +85,8 @@ namespace Enemy
 		var distCoef = dist / _maxDistance;
 		var currentUpdateTimer = distCoef * _targetCorrectionTimer;
 		Attack(_attacker.IsPlayerVisible);
+		var dist2 = Vector3.Distance(_agent.destination, transform.position);
+		_isWalking = dist2 > _attackDistance*2;
 		if (
 			dist < _attackDistance 
 			&& !_attacker.IsPlayerVisible)
@@ -119,6 +137,27 @@ namespace Enemy
 		}
 		_currentAttackTimer += Time.deltaTime;
 	}
+	
+	public IEnumerator PlayFootSound()
+	{
+
+		while (true)
+		{
+
+			if (_isWalking)
+			{
+				AudioManager.PlaySound(_walkAudio, _walkSounds);
+			}
+			else
+			{
+				_walkAudio.Stop();
+			}
+
+			yield return new WaitForSeconds(_walkSoundDelay * 2);
+		}
+
+	}
+
 }	
 
 }

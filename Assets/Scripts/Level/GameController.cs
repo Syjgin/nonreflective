@@ -11,6 +11,7 @@ namespace Level
         [SerializeField] private List<GameObject> _tiles;
         [SerializeField] private GameObject _trap;
         [SerializeField] private GameObject _finish;
+        [SerializeField] private GameObject _hero;
         
         private void Start()
         {
@@ -38,6 +39,8 @@ namespace Level
             var exitCoordinate = new Vector2(startPos + (_tileSize*generator.ExitCoordinate.x), startPos + (_tileSize*generator.ExitCoordinate.y));
             var exit = Instantiate(_finish);
             exit.transform.position = new Vector3(exitCoordinate.x, 0.5f, exitCoordinate.y);
+            var heroCoordinate = new Vector2(startPos + (_tileSize*generator.HeroCoordinate.x), startPos + (_tileSize*generator.HeroCoordinate.y));
+            _hero.transform.position = new Vector3(heroCoordinate.x, 1, heroCoordinate.y);
         }
 
         public void RestartLevel()

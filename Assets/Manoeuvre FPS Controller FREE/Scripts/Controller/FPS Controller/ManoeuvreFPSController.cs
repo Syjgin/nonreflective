@@ -106,13 +106,7 @@ namespace Manoeuvre
             EventManager.OnPortalReached -= Win;
         }
         
-        public void PlaySound(List<AudioClip> ac)
-        {
-            source.pitch = Random.Range(1f, 1.2f);
-            int clip = Random.Range(0, ac.Count);
-
-            source.PlayOneShot(ac[clip]);
-        }
+        
 
         #endregion
 
@@ -368,7 +362,7 @@ namespace Manoeuvre
             gc_PlayerHealthManager.Instance.LerpSliders(Health.currentHealth);
 
             //we play hit sound
-            PlaySound(Health.HitSounds);
+            AudioManager.PlaySound(source, Health.HitSounds);
         }
 
         /// <summary>
@@ -385,7 +379,7 @@ namespace Manoeuvre
             gc_PlayerHealthManager.Instance.LerpSliders(Health.currentHealth);
             
             //we play death sound
-            PlaySound(Health.DeathSounds);
+            AudioManager.PlaySound(source, Health.DeathSounds);
 
             //Start Death Manoeuvre Coroutine
             StartCoroutine(ShowVignette(Health.DamageVignette));
@@ -432,7 +426,7 @@ namespace Manoeuvre
             {
                 _currentTimeout = 0f;
                 //HandsAnimator.SetBool("Attack", true);
-                ManoeuvreFPSController.Instance.PlaySound(AttackSounds);
+                AudioManager.PlaySound(ManoeuvreFPSController.Instance.source, AttackSounds);
                 ManoeuvreFPSController.Instance.HealthkitPickup(SuckAmount);
                 ManoeuvreFPSController.Instance.StartCoroutine(ManoeuvreFPSController.Instance.ShowVignette(SuckVignette));
                 EventManager.AddDamageToEnemy(_targetId, SuckAmount);

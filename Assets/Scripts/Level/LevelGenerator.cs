@@ -98,7 +98,8 @@ public class LevelGenerator {
 	private CellDescription[] _cells;
 	public Vector2[] TrapCoordinates { get; private set; }
 	public Vector2 ExitCoordinate { get; private set; }
-
+	public Vector2 HeroCoordinate { get; private set; }
+	
 	public void GenerateLevel()
 	{
 		Random.InitState((int) DateTime.Now.Ticks);
@@ -147,6 +148,14 @@ public class LevelGenerator {
 			if (usedCoords.Contains(coordinate)) continue;
 			exitSelected = true;
 			ExitCoordinate = GetCoordinateByAbsoluteNumber(coordinate);
+		}
+		var heroSelected = false;
+		while (!heroSelected)
+		{
+			var coordinate = Random.Range(0, (Side-2) * (Side-2));
+			if (usedCoords.Contains(coordinate)) continue;
+			heroSelected = true;
+			HeroCoordinate = GetCoordinateByAbsoluteNumber(coordinate);
 		}
 		for (int i = 0; i < Side; i++)
 		{

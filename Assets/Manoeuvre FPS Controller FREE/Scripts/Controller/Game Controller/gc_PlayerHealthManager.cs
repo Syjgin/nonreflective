@@ -28,6 +28,8 @@ namespace Manoeuvre
 
         public static gc_PlayerHealthManager Instance;
 
+        private bool _isDialogueShown = false;
+
         private void Awake()
         {
             Instance = this;
@@ -116,6 +118,9 @@ namespace Manoeuvre
 
         private void ShowDialogue(GameObject dialogue)
         {
+            if(_isDialogueShown)
+                return;
+            _isDialogueShown = true;
             List<CanvasGroup> cg = new List<CanvasGroup>();
 
             CanvasGroup HUD = GameObject.Find("HUD").GetComponent<CanvasGroup>();
