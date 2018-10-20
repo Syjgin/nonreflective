@@ -56,6 +56,7 @@ namespace Manoeuvre
 
         void Initialize()
         {
+            Cursor.lockState = CursorLockMode.Locked;
             source = gameObject.AddComponent<AudioSource>();
             //AttackManager.HandsAnimator = GameObject.Find("hands").GetComponent<Animator>();
             //get character controller ref
@@ -92,6 +93,8 @@ namespace Manoeuvre
 
         private void Win()
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.lockState = CursorLockMode.Confined;
             gc_PlayerHealthManager.Instance.WinUi();
             gameObject.SetActive(false);
             camController.enabled = false;
@@ -374,6 +377,8 @@ namespace Manoeuvre
         /// </summary>
         public void Die()
         {
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.lockState = CursorLockMode.Confined;
             //make sure, time scale is 1
             Time.timeScale = 1f;
             //also lerp Health and Damage Sliders

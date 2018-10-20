@@ -155,7 +155,7 @@ namespace DigitalRuby.MagicMirror
             var fpsCamera = GameObject.Find("FPS Camera");
             _fpsCamera = fpsCamera.GetComponent<CameraController>();
             _camera = fpsCamera.GetComponent<Camera>();
-            _collider = transform.parent.GetComponent<BoxCollider>();
+            _collider = GetComponent<BoxCollider>();
         }
 
         public ReflectionCameraInfo QueueReflection(Camera sourceCamera)

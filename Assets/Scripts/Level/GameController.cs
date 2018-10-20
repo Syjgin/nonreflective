@@ -13,8 +13,8 @@ namespace Level
         private void Start()
         {
             var generator = new LevelGenerator();
-            generator.GenerateLevel(_size);
-            var startPos = 0.5f * _tileSize - (_tileSize * _size * 0.5f);
+            generator.GenerateLevel();
+            /*var startPos = 0.5f * _tileSize - (_tileSize * _size * 0.5f);
             for (var i = 0; i < _size; i++)
             {
                 for (var j = 0; j < _size; j++)
@@ -23,8 +23,7 @@ namespace Level
                     var tile = Instantiate(_tiles[(int) generator.GetByCoordinates(i, j)]);
                     tile.transform.position = new Vector3(currentCoordinates.x, 1, currentCoordinates.y);
                 }
-            }
-            //TODO: refresh navmesh
+            }*/
         }
 
         public void RestartLevel()
