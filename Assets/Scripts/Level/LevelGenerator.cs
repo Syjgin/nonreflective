@@ -31,12 +31,11 @@ public class LevelGenerator {
 		}
 	}
 
-	private CellDescription[] _preset1 = new[]
-	{
+	private CellDescription[] _preset1 = {
 		new CellDescription(CellType.TwoCurvedMirror, 270),
 		new CellDescription(CellType.Three, 180),
 		new CellDescription(CellType.One, 90),
-		new CellDescription(CellType.Four, 270),
+		new CellDescription(CellType.Four, 0),
 		new CellDescription(CellType.ThreeMirror, 0),
 		new CellDescription(CellType.Three, 0),
 		new CellDescription(CellType.TwoCurved, 180),
@@ -44,47 +43,43 @@ public class LevelGenerator {
 		new CellDescription(CellType.OneMirror, 180)
 	};
 	
-	private CellDescription[] _preset2 = new[]
-	{
+	private CellDescription[] _preset2 = {
 		new CellDescription(CellType.TwoCurved, 270),
 		new CellDescription(CellType.TwoCurvedMirror, 90),
-		new CellDescription(CellType.TwoCurvedMirror, 180),
+		new CellDescription(CellType.TwoCurvedMirror, 270),
 		new CellDescription(CellType.Three, 90),
 		new CellDescription(CellType.Three, 270),
-		new CellDescription(CellType.Two, 270),
-		new CellDescription(CellType.Four, 270),
-		new CellDescription(CellType.ThreeMirror, 90),
-		new CellDescription(CellType.Two, 0)
+		new CellDescription(CellType.Three, 180),
+		new CellDescription(CellType.Four, 0),
+		new CellDescription(CellType.Four, 0),
+		new CellDescription(CellType.OneMirror, 90)
 	};
 	
-	private CellDescription[] _preset3 = new[]
-	{
-		new CellDescription(CellType.Two, 270),
+	private CellDescription[] _preset3 = {
+		new CellDescription(CellType.TwoCurved, 0),
 		new CellDescription(CellType.TwoCurvedMirror, 180),
 		new CellDescription(CellType.TwoCurved, 0),
-		new CellDescription(CellType.ThreeMirror, 0),
-		new CellDescription(CellType.Four, 270),
+		new CellDescription(CellType.Four, 0),
+		new CellDescription(CellType.OneMirror, 90),
 		new CellDescription(CellType.Three, 270),
 		new CellDescription(CellType.Three, 180),
 		new CellDescription(CellType.Three, 0),
 		new CellDescription(CellType.TwoCurvedMirror, 90)
 	};
 	
-	private CellDescription[] _preset4 = new[]
-	{
+	private CellDescription[] _preset4 = {
 		new CellDescription(CellType.Two, 0),
-		new CellDescription(CellType.Three, 270),
+		new CellDescription(CellType.ThreeMirror, 270),
 		new CellDescription(CellType.TwoCurved, 0),
-		new CellDescription(CellType.TwoCurved, 0),
+		new CellDescription(CellType.Three, 90),
 		new CellDescription(CellType.TwoCurved, 270),
 		new CellDescription(CellType.ThreeMirror, 180),
 		new CellDescription(CellType.TwoCurvedMirror, 180),
-		new CellDescription(CellType.Three, 90),
-		new CellDescription(CellType.TwoCurvedMirror, 270)
+		new CellDescription(CellType.Four, 0),
+		new CellDescription(CellType.TwoCurved, 90)
 	};
 	
-	private CellDescription[] _preset5 = new[]
-	{
+	private CellDescription[] _preset5 = {
 		new CellDescription(CellType.OneMirror, 0),
 		new CellDescription(CellType.Three, 270),
 		new CellDescription(CellType.TwoCurved, 90),
@@ -97,10 +92,14 @@ public class LevelGenerator {
 	};
 
 	public const int Side = 8;
-	private const int SampleSize = 3; 
+	private const int SampleSize = 3;
+	private const int TrapCount = 4;
+	
 	private CellDescription[] _cells;
+	public Vector2[] TrapCoordinates { get; private set; }
+	public Vector2 ExitCoordinate { get; private set; }
 
-	public CellDescription[] GenerateLevel()
+	public void GenerateLevel()
 	{
 		Random.InitState((int) DateTime.Now.Ticks);
 		_cells = new CellDescription[Side*Side];
@@ -124,6 +123,31 @@ public class LevelGenerator {
 		currentRandom = Random.Range(0, randomPresets.Length);
 		var currentPreset4 = randomPresets[currentRandom];
 		//Debug.Log("forth preset selected:"+currentRandom);
+		var usedCoords = new List<int>();
+		TrapCoordinates = new Vector2[TrapCount];
+		int currentIndex = 0;
+		for (int i = 0; i < TrapCount; i++)
+		{
+			var selected = false;
+			while (!selected)
+			{
+				var coordinate = Random.Range(0, (Side-2) * (Side-2));
+				if (usedCoords.Contains(coordinate)) continue;
+				usedCoords.Add(coordinate);
+				selected = true;
+				TrapCoordinates[currentIndex] = GetCoordinateByAbsoluteNumber(coordinate);
+				currentIndex++;
+			}
+		}
+
+		var exitSelected = false;
+		while (!exitSelected)
+		{
+			var coordinate = Random.Range(0, (Side-2) * (Side-2));
+			if (usedCoords.Contains(coordinate)) continue;
+			exitSelected = true;
+			ExitCoordinate = GetCoordinateByAbsoluteNumber(coordinate);
+		}
 		for (int i = 0; i < Side; i++)
 		{
 			for (int j = 0; j < Side; j++)
@@ -182,7 +206,6 @@ public class LevelGenerator {
 		{
 			Debug.Log(cellDescription.Cell + ":" + cellDescription.Rotation);
 		}*/
-		return _cells;
 	}
 
 	public CellDescription GetByCoordinates(int i, int j)
@@ -197,5 +220,12 @@ public class LevelGenerator {
 		int side)
 	{
 		return arr[i * side + j];
+	}
+
+	private Vector2 GetCoordinateByAbsoluteNumber(int number)
+	{
+		var i = number / (Side-2);
+		var j = number % (Side-2);
+		return new Vector2(i+1,j+1);
 	}
 }
