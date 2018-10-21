@@ -37,8 +37,11 @@ namespace Enemy
 	private AudioSource _audioSource;
 	[SerializeField]
 	private AudioSource _walkAudio;
+
+	[SerializeField] private Animator _animator;
 	private bool _isWalking;
 	private float _walkSoundDelay;
+	private bool _isDead;
 	
 	private void Awake()
 	{
@@ -66,6 +69,7 @@ namespace Enemy
 		if(id != Id)
 			return;
 		_hp -= amount;
+		AudioManager.PlaySound(_audioSource, _woundSounds);
 		//TODO: play hurt animation etc.
 		if (_hp <= 0)
 		{
@@ -75,18 +79,30 @@ namespace Enemy
 
 	private void Die()
 	{
+		_animator.SetBool("Dying", true);
+		_isDead = true;
+		AudioManager.PlaySound(_audioSource, _deathSounds);
 		//TODO: play death animation
+		StartCoroutine(Death());
+	}
+
+	private IEnumerator Death()
+	{
+		yield return new WaitForSeconds(2);
 		Destroy(gameObject);
 	}
 
 	private void Update()
 	{
+		if(_isDead)
+			return;
 		var dist = Vector3.Distance(transform.position, _player.transform.position);
 		var distCoef = dist / _maxDistance;
 		var currentUpdateTimer = distCoef * _targetCorrectionTimer;
 		Attack(_attacker.IsPlayerVisible);
 		var dist2 = Vector3.Distance(_agent.destination, transform.position);
 		_isWalking = dist2 > _attackDistance*2;
+		_animator.SetBool("Walking", _isWalking);
 		if (
 			dist < _attackDistance 
 			&& !_attacker.IsPlayerVisible)
@@ -131,8 +147,14 @@ namespace Enemy
 		{
 			if (_currentAttackTimer >= _attackTimer)
 			{
+				_animator.SetBool("Attacking", true);
 				_currentAttackTimer = 0;
+				AudioManager.PlaySound(_audioSource, _attackSounds);
 				EventManager.AddDamageToPlayer(_attackAmount);		
+			}
+			else
+			{
+				_animator.SetBool("Attacking", false);
 			}
 		}
 		_currentAttackTimer += Time.deltaTime;

@@ -47,5 +47,10 @@ namespace Level
         {
             SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
         }
+
+        public void Exit()
+        {
+            SceneManager.LoadSceneAsync("menu");
+        }
     }
 }
